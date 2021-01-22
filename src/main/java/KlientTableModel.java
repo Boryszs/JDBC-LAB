@@ -3,10 +3,10 @@ import java.util.List;
 
 public class KlientTableModel extends AbstractTableModel {
 
-    List<Klient> klients;
+    List<Klient> klienci;
 
-    public List<Klient> getKlients() {
-        return klients;
+    public List<Klient> getKlienci() {
+        return klienci;
     }
 
     private final String[] columnNames = new String[] {
@@ -18,12 +18,12 @@ public class KlientTableModel extends AbstractTableModel {
     };
 
     public KlientTableModel(List<Klient> klients) {
-        this.klients = klients;
+        this.klienci = klients;
     }
 
     @Override
     public int getRowCount() {
-        return klients.size();
+        return klienci.size();
     }
 
     @Override
@@ -45,7 +45,7 @@ public class KlientTableModel extends AbstractTableModel {
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        Klient row = klients.get(rowIndex);
+        Klient row = klienci.get(rowIndex);
 
         if(columnIndex == 0){
             return row.getIdKlient();
@@ -58,19 +58,17 @@ public class KlientTableModel extends AbstractTableModel {
         }
         return null;
     }
+
     @Override
-    public boolean isCellEditable(int rowIndex, int columnIndex)
-    {
+    public boolean isCellEditable(int rowIndex, int columnIndex) {
         return true;
     }
 
     @Override
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-        Klient row = klients.get(rowIndex);
+        Klient row = klienci.get(rowIndex);
 
-        if(columnIndex == 0){
-            row.setIdKlient((Integer) aValue);
-        }else if(columnIndex == 1){
+        if(columnIndex == 1){
             row.setLogin((String) aValue);
             row.updateLogin();
             row.getKlientLogin();
@@ -78,8 +76,6 @@ public class KlientTableModel extends AbstractTableModel {
             row.setHaslo((String) aValue);
             row.updateHaslo();
             row.getKlientHaslo();
-        }else if(columnIndex == 3){
-            row.setIdOsoby((Integer) aValue);
         }
     }
 }

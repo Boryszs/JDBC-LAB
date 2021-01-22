@@ -119,10 +119,10 @@ public class Klient {
         }
     }
 
-    public List<Klient> getAllKlients(){
+    public static List<Klient> getKlient(){
         Connection connection = null;
         Statement statement = null;
-        List<Klient> klients = new LinkedList<>();
+        List<Klient> klienci = new LinkedList<>();
         try {
             connection = DriverManager.getConnection(Main.URL, Main.Login, Main.Password);
             logger.info("Connecting succesfull");
@@ -131,7 +131,7 @@ public class Klient {
             ResultSet resultSet = statement.executeQuery("SELECT * FROM restauracja.klient ORDER BY id_klienta;");
             logger.info("Execute Querry");
             while (resultSet.next()) {
-                klients.add(new Klient(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getInt(4)));
+                klienci.add(new Klient(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getInt(4)));
             }
             resultSet.close();
             statement.close();
@@ -155,7 +155,7 @@ public class Klient {
                 }
             }
         }
-        return klients;
+        return klienci;
     }
 
     public void updateLogin(){

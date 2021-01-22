@@ -10,7 +10,8 @@ public class Main {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                KlientGui klientGui = new KlientGui(new Klient().getAllKlients());
+                //new KlientGui();
+                new OsobaGUI();
             }
         });
 

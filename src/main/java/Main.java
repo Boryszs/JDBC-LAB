@@ -10,10 +10,8 @@ public class Main {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                //new KlientGui();
-                new OsobaGUI();
+                new ChooseWindow();
             }
         });
-
     }
 }

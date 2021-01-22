@@ -72,8 +72,12 @@ public class KlientTableModel extends AbstractTableModel {
             row.setIdKlient((Integer) aValue);
         }else if(columnIndex == 1){
             row.setLogin((String) aValue);
+            row.updateLogin();
+            row.getKlientLogin();
         }else if(columnIndex == 2){
             row.setHaslo((String) aValue);
+            row.updateHaslo();
+            row.getKlientHaslo();
         }else if(columnIndex == 3){
             row.setIdOsoby((Integer) aValue);
         }

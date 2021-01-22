@@ -55,6 +55,70 @@ public class Klient {
         this.idOsoby = idOsoby;
     }
 
+    public void getKlientLogin(){
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        try {
+            connection = DriverManager.getConnection(Main.URL,Main.Login,Main.Password);
+            logger.info("Connecting succesfull");
+            connection.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
+            String sql = "SELECT login FROM restauracja.klient WHERE id_klienta = ?";
+            statement = connection.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            statement.clearParameters();
+            statement.setInt(1,this.idKlient);
+            resultSet = statement.executeQuery();
+            resultSet.next();
+            this.setLogin(resultSet.getString("login"));
+            logger.info("Refresh Login "+this.toString());
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }finally {
+            try {
+                if (statement != null && !statement.isClosed()) {
+                    statement.close();
+                }
+                if (connection != null && !connection.isClosed()) {
+                    connection.close();
+                }
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        }
+    }
+
+    public void getKlientHaslo(){
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        try {
+            connection = DriverManager.getConnection(Main.URL,Main.Login,Main.Password);
+            logger.info("Connecting succesfull");
+            connection.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
+            String sql = "SELECT haslo FROM restauracja.klient WHERE id_klienta = ?";
+            statement = connection.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            statement.clearParameters();
+            statement.setInt(1,this.idKlient);
+            resultSet = statement.executeQuery();
+            resultSet.next();
+            this.setHaslo(resultSet.getString("haslo"));
+            logger.info("Refresh Haslo "+this.toString());
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }finally {
+            try {
+                if (statement != null && !statement.isClosed()) {
+                    statement.close();
+                }
+                if (connection != null && !connection.isClosed()) {
+                    connection.close();
+                }
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        }
+    }
+
     public List<Klient> getAllKlients(){
         Connection connection = null;
         Statement statement = null;
@@ -64,7 +128,7 @@ public class Klient {
             logger.info("Connecting succesfull");
             connection.setAutoCommit(false);
             statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM restauracja.klient;");
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM restauracja.klient ORDER BY id_klienta;");
             logger.info("Execute Querry");
             while (resultSet.next()) {
                 klients.add(new Klient(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getInt(4)));
@@ -94,22 +158,24 @@ public class Klient {
         return klients;
     }
 
-    public void updateKlient(){
+    public void updateLogin(){
         Connection connection = null;
         PreparedStatement statement = null;
         try {
             connection = DriverManager.getConnection(Main.URL,Main.Login,Main.Password);
+            logger.info("Connecting succesfull");
             connection.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
-            String sql = "UPDATE restauracja.klient SET Login =  crypt(?, gen_salt('md5')) WHERE id_klienta = ?;";
+            String sql = "UPDATE restauracja.klient SET login = ? WHERE id_klienta = ?;";
             statement = connection.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             statement.clearParameters();
-            statement.setString(1,"DAsw2#$5S2");
-            statement.setInt(2,14);
+            statement.setString(1,this.login);
+            statement.setInt(2,this.idKlient);
 
             int rowsInserted  = statement.executeUpdate();
-            System.out.println("OK");
             if(rowsInserted>0){
-                System.out.println("Succes Update");
+                logger.info("Succes Update Login");
+            }else{
+                logger.info("Not Update");
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -126,6 +192,77 @@ public class Klient {
             }
         }
     }
+
+    public void updateHaslo(){
+        Connection connection = null;
+        PreparedStatement statement = null;
+        try {
+            connection = DriverManager.getConnection(Main.URL,Main.Login,Main.Password);
+            logger.info("Connecting succesfull");
+            connection.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
+            String sql = "UPDATE restauracja.klient SET haslo = crypt(?, gen_salt('md5')) WHERE id_klienta = ?;";
+            statement = connection.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            statement.clearParameters();
+            statement.setString(1,this.haslo);
+            statement.setInt(2,this.idKlient);
+
+            int rowsInserted  = statement.executeUpdate();
+            if(rowsInserted>0){
+                logger.info("Succes Update Haslo");
+            }else{
+                logger.info("Not Update");
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }finally {
+            try {
+                if (statement != null && !statement.isClosed()) {
+                    statement.close();
+                }
+                if (connection != null && !connection.isClosed()) {
+                    connection.close();
+                }
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        }
+    }
+
+    public void updateKlient(){
+        Connection connection = null;
+        PreparedStatement statement = null;
+        try {
+            connection = DriverManager.getConnection(Main.URL,Main.Login,Main.Password);
+            connection.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
+            String sql = "UPDATE restauracja.klient SET login = ?, haslo =  crypt(?, gen_salt('md5')) WHERE id_klienta = ?;";
+            statement = connection.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            statement.clearParameters();
+            statement.setString(1,this.login);
+            statement.setString(2,this.haslo);
+            statement.setInt(3,this.idKlient);
+
+            int rowsInserted  = statement.executeUpdate();
+            if(rowsInserted>0){
+                logger.info("Succes Update");
+            }else{
+                logger.info("Not Update");
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }finally {
+            try {
+                if (statement != null && !statement.isClosed()) {
+                    statement.close();
+                }
+                if (connection != null && !connection.isClosed()) {
+                    connection.close();
+                }
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        }
+    }
+
     @Override
     public String toString() {
         return "Klient{" +

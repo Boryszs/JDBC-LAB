@@ -6,13 +6,11 @@ public class Main {
     static  final String Login = "postgres";
     static  final String Password = "123";
     public static void main(String[] args) {
-        Klient klient = new Klient();
-        klient.updateKlient();
+
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-
-                //KlientGui klientGui = new KlientGui(klient.getAllKlients());
+                KlientGui klientGui = new KlientGui(new Klient().getAllKlients());
             }
         });
 

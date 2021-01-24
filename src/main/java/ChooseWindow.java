@@ -15,7 +15,7 @@ public class ChooseWindow extends JFrame {
         panelMain.setLayout(new BoxLayout(panelMain, BoxLayout.Y_AXIS));
         Panel panelC = new Panel();
         Panel panelB = new Panel();
-        String choose [] = {"Klient","Ososby"};
+        String choose [] = {"Wybierz","Klient","Ososby"};
         Label label = new Label("Wybierz baze:");
         JComboBox jCheckBox = new JComboBox(choose);
         panelC.add(label);
@@ -34,8 +34,8 @@ public class ChooseWindow extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                int index = jCheckBox.getSelectedIndex();
-               logger.info("Wybrano Tabele"+jCheckBox.getSelectedItem());
-               if(index == 0){
+               if(index == 1){
+                   logger.info("Wybrano Tabele"+jCheckBox.getSelectedItem());
                    dispose();
                    SwingUtilities.invokeLater(new Runnable() {
                        @Override
@@ -43,7 +43,8 @@ public class ChooseWindow extends JFrame {
                            new KlientGui();
                        }
                    });
-               }if(index == 1){
+               }if(index == 2){
+                    logger.info("Wybrano Tabele"+jCheckBox.getSelectedItem());
                    dispose();
                     SwingUtilities.invokeLater(new Runnable() {
                         @Override

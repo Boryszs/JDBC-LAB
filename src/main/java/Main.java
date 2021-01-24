@@ -1,7 +1,6 @@
 import javax.swing.*;
 
 public class Main {
-
     static final String URL = "jdbc:postgresql://localhost/rest";
     static  final String Login = "postgres";
     static  final String Password = "123";

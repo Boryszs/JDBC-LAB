@@ -14,7 +14,7 @@ public class KlientTableModel extends AbstractTableModel {
     };
 
     private final Class[] columnClass = new Class[]{
-    Integer.class,String.class,String.class,Integer.class
+            Integer.class,String.class,String.class,Integer.class
     };
 
     public KlientTableModel(List<Klient> klients) {

@@ -1,5 +1,6 @@
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import java.sql.*;
 import java.util.LinkedList;
 import java.util.List;
@@ -55,25 +56,25 @@ public class Klient {
         this.idOsoby = idOsoby;
     }
 
-    public void getKlientLogin(){
+    public void getKlientLogin() {
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
-            connection = DriverManager.getConnection(Main.URL,Main.Login,Main.Password);
+            connection = DriverManager.getConnection(Main.URL, Main.Login, Main.Password);
             logger.info("Connecting succesfull");
             connection.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
             String sql = "SELECT login FROM restauracja.klient WHERE id_klienta = ?";
-            statement = connection.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            statement = connection.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             statement.clearParameters();
-            statement.setInt(1,this.idKlient);
+            statement.setInt(1, this.idKlient);
             resultSet = statement.executeQuery();
             resultSet.next();
             this.setLogin(resultSet.getString("login"));
-            logger.info("Refresh Login "+this.toString());
+            logger.info("Refresh Login " + this.toString());
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-        }finally {
+        } finally {
             try {
                 if (statement != null && !statement.isClosed()) {
                     statement.close();
@@ -87,25 +88,25 @@ public class Klient {
         }
     }
 
-    public void getKlientHaslo(){
+    public void getKlientHaslo() {
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
-            connection = DriverManager.getConnection(Main.URL,Main.Login,Main.Password);
+            connection = DriverManager.getConnection(Main.URL, Main.Login, Main.Password);
             logger.info("Connecting succesfull");
             connection.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
             String sql = "SELECT haslo FROM restauracja.klient WHERE id_klienta = ?";
-            statement = connection.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            statement = connection.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             statement.clearParameters();
-            statement.setInt(1,this.idKlient);
+            statement.setInt(1, this.idKlient);
             resultSet = statement.executeQuery();
             resultSet.next();
             this.setHaslo(resultSet.getString("haslo"));
-            logger.info("Refresh Haslo "+this.toString());
+            logger.info("Refresh Haslo " + this.toString());
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-        }finally {
+        } finally {
             try {
                 if (statement != null && !statement.isClosed()) {
                     statement.close();
@@ -119,7 +120,7 @@ public class Klient {
         }
     }
 
-    public static List<Klient> getKlient(){
+    public static List<Klient> getKlient() {
         Connection connection = null;
         Statement statement = null;
         List<Klient> klienci = new LinkedList<>();
@@ -158,28 +159,63 @@ public class Klient {
         return klienci;
     }
 
-    public void updateLogin(){
+    public static void addKlient(String login, String password) {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
-            connection = DriverManager.getConnection(Main.URL,Main.Login,Main.Password);
+            connection = DriverManager.getConnection(Main.URL, Main.Login, Main.Password);
+            logger.info("Connecting succesfull");
+            connection.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
+            String sql = "INSERT INTO  restauracja.klient (login,haslo,id_osoby) VALUES(?, crypt(?, gen_salt('md5')),10);";
+            statement = connection.prepareStatement(sql);
+            statement.clearParameters();
+            statement.setString(1, login);
+            statement.setString(2, password);
+
+            int rowsInserted = statement.executeUpdate();
+            if (rowsInserted > 0) {
+                logger.info("Succes Insert Klient");
+            } else {
+                logger.info("Not Insert");
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } finally {
+            try {
+                if (statement != null && !statement.isClosed()) {
+                    statement.close();
+                }
+                if (connection != null && !connection.isClosed()) {
+                    connection.close();
+                }
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        }
+    }
+
+    public void updateLogin() {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        try {
+            connection = DriverManager.getConnection(Main.URL, Main.Login, Main.Password);
             logger.info("Connecting succesfull");
             connection.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
             String sql = "UPDATE restauracja.klient SET login = ? WHERE id_klienta = ?;";
-            statement = connection.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            statement = connection.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             statement.clearParameters();
-            statement.setString(1,this.login);
-            statement.setInt(2,this.idKlient);
+            statement.setString(1, this.login);
+            statement.setInt(2, this.idKlient);
 
-            int rowsInserted  = statement.executeUpdate();
-            if(rowsInserted>0){
+            int rowsUpdate = statement.executeUpdate();
+            if (rowsUpdate > 0) {
                 logger.info("Succes Update Login");
-            }else{
+            } else {
                 logger.info("Not Update");
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-        }finally {
+        } finally {
             try {
                 if (statement != null && !statement.isClosed()) {
                     statement.close();
@@ -193,28 +229,28 @@ public class Klient {
         }
     }
 
-    public void updateHaslo(){
+    public void updateHaslo() {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
-            connection = DriverManager.getConnection(Main.URL,Main.Login,Main.Password);
+            connection = DriverManager.getConnection(Main.URL, Main.Login, Main.Password);
             logger.info("Connecting succesfull");
             connection.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
             String sql = "UPDATE restauracja.klient SET haslo = crypt(?, gen_salt('md5')) WHERE id_klienta = ?;";
-            statement = connection.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            statement = connection.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             statement.clearParameters();
-            statement.setString(1,this.haslo);
-            statement.setInt(2,this.idKlient);
+            statement.setString(1, this.haslo);
+            statement.setInt(2, this.idKlient);
 
-            int rowsInserted  = statement.executeUpdate();
-            if(rowsInserted>0){
+            int rowsUpdate = statement.executeUpdate();
+            if (rowsUpdate > 0) {
                 logger.info("Succes Update Haslo");
-            }else{
+            } else {
                 logger.info("Not Update");
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-        }finally {
+        } finally {
             try {
                 if (statement != null && !statement.isClosed()) {
                     statement.close();
@@ -228,28 +264,28 @@ public class Klient {
         }
     }
 
-    public void updateKlient(){
+    public void updateKlient() {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
-            connection = DriverManager.getConnection(Main.URL,Main.Login,Main.Password);
+            connection = DriverManager.getConnection(Main.URL, Main.Login, Main.Password);
             connection.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
             String sql = "UPDATE restauracja.klient SET login = ?, haslo =  crypt(?, gen_salt('md5')) WHERE id_klienta = ?;";
-            statement = connection.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            statement = connection.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             statement.clearParameters();
-            statement.setString(1,this.login);
-            statement.setString(2,this.haslo);
-            statement.setInt(3,this.idKlient);
+            statement.setString(1, this.login);
+            statement.setString(2, this.haslo);
+            statement.setInt(3, this.idKlient);
 
-            int rowsInserted  = statement.executeUpdate();
-            if(rowsInserted>0){
+            int rowsInserted = statement.executeUpdate();
+            if (rowsInserted > 0) {
                 logger.info("Succes Update");
-            }else{
+            } else {
                 logger.info("Not Update");
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-        }finally {
+        } finally {
             try {
                 if (statement != null && !statement.isClosed()) {
                     statement.close();

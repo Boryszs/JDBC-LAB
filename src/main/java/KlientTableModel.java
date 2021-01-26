@@ -5,6 +5,10 @@ public class KlientTableModel extends AbstractTableModel {
 
     List<Klient> klienci;
 
+    public void setKlienci(List<Klient> klienci) {
+        this.klienci = klienci;
+    }
+
     public List<Klient> getKlienci() {
         return klienci;
     }

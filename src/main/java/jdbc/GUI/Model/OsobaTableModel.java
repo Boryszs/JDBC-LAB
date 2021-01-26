@@ -1,5 +1,8 @@
+package jdbc.GUI.Model;
+
+import jdbc.model.Osoba;
+
 import javax.swing.table.AbstractTableModel;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 

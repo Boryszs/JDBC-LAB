@@ -1,3 +1,6 @@
+package jdbc.model;
+
+import jdbc.Main;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -174,7 +177,7 @@ public class Klient {
 
             int rowsInserted = statement.executeUpdate();
             if (rowsInserted > 0) {
-                logger.info("Succes Insert Klient");
+                logger.info("Succes Insert jdbc.model.Klient");
             } else {
                 logger.info("Not Insert");
             }
@@ -301,7 +304,7 @@ public class Klient {
 
     @Override
     public String toString() {
-        return "Klient{" +
+        return "jdbc.model.Klient{" +
                 "idKlient=" + idKlient +
                 ", login='" + login + '\'' +
                 ", haslo='" + haslo + '\'' +

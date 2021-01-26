@@ -1,3 +1,8 @@
+package jdbc.GUI;
+
+import jdbc.GUI.Model.OsobaTableModel;
+import jdbc.model.Osoba;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;

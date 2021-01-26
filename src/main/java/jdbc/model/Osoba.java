@@ -1,3 +1,6 @@
+package jdbc.model;
+
+import jdbc.Main;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -540,7 +543,7 @@ public class Osoba {
 
     @Override
     public String toString() {
-        return "Osoba{" +
+        return "jdbc.model.Osoba{" +
                 "idOsoby=" + idOsoby +
                 ", imie='" + imie + '\'' +
                 ", nazwisko='" + nazwisko + '\'' +

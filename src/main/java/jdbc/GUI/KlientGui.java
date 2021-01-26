@@ -1,3 +1,8 @@
+package jdbc.GUI;
+
+import jdbc.GUI.Model.KlientTableModel;
+import jdbc.model.Klient;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;

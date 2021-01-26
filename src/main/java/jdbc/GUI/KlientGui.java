@@ -9,8 +9,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
-public class KlientGui extends  JFrame{
+public class KlientGui extends JFrame{
+
     private List<Klient> klientList;
+
     public KlientGui() {
         klientList = Klient.getKlient();
         KlientTableModel klientTableModel = new KlientTableModel(klientList);

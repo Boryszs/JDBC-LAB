@@ -9,14 +9,6 @@ public class KlientTableModel extends AbstractTableModel {
 
     List<Klient> klienci;
 
-    public void setKlienci(List<Klient> klienci) {
-        this.klienci = klienci;
-    }
-
-    public List<Klient> getKlienci() {
-        return klienci;
-    }
-
     private final String[] columnNames = new String[] {
             "IdKlient", "Login", "Haslo", "IdOsoby"
     };
@@ -24,6 +16,14 @@ public class KlientTableModel extends AbstractTableModel {
     private final Class[] columnClass = new Class[]{
             Integer.class,String.class,String.class,Integer.class
     };
+
+    public void setKlienci(List<Klient> klienci) {
+        this.klienci = klienci;
+    }
+
+    public List<Klient> getKlienci() {
+        return klienci;
+    }
 
     public KlientTableModel(List<Klient> klients) {
         this.klienci = klients;

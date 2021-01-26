@@ -83,29 +83,22 @@ public class OsobaTableModel extends AbstractTableModel {
         if(columnIndex == 1){
             row.setImie((String) aValue);
             row.updateImie();
-            row.selectImie();
         }else if(columnIndex == 2){
             row.setNazwisko((String) aValue);
             row.updateNazwisko();
-            row.selectNazwisko();
         }else if(columnIndex == 3){
             row.setPesel((String) aValue);
             row.updatePesel();
-            row.selectPesel();
         }else if(columnIndex == 4){
             //TODO NOT WORKING CHANGE DATE
-            System.out.println((Date)aValue);
             row.setDataUrodzenia((Date) aValue);
             row.updateDataUrodzenia();
-            row.selectDataUrodzenia();
         }else if(columnIndex == 5){
             row.setEmail((String) aValue);
             row.updateEmail();
-            row.selectEmail();
         }else if(columnIndex == 6){
             row.setTelefon((String) aValue);
             row.updateTelefon();
-            row.selectTelefon();
         }
     }
 

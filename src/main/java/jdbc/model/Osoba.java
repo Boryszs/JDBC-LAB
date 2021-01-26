@@ -10,16 +10,16 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Osoba {
-   private static final Logger logger = LoggerFactory.getLogger(Osoba.class);
+    private static final Logger logger = LoggerFactory.getLogger(Osoba.class);
 
-   private int idOsoby;
-   private String imie;
-   private String nazwisko;
-   private String pesel;
-   private Date dataUrodzenia;
-   private String email;
-   private String telefon;
-   private int idAdresu;
+    private int idOsoby;
+    private String imie;
+    private String nazwisko;
+    private String pesel;
+    private Date dataUrodzenia;
+    private String email;
+    private String telefon;
+    private int idAdresu;
 
     public Osoba() {
     }
@@ -120,43 +120,39 @@ public class Osoba {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         } finally {
-            if (statement != null) {
-                try {
+            try {
+                if (statement != null && !statement.isClosed()) {
                     statement.close();
-                } catch (SQLException throwables) {
-                    throwables.printStackTrace();
                 }
-            }
-            if (connection != null) {
-                try {
+                if (connection != null && !connection.isClosed()) {
                     connection.close();
-                } catch (SQLException throwables) {
-                    throwables.printStackTrace();
                 }
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
             }
         }
         return osoby;
     }
 
-    public void selectImie(){
+    public void selectImie() {
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
-            connection = DriverManager.getConnection(Main.URL,Main.Login,Main.Password);
+            connection = DriverManager.getConnection(Main.URL, Main.Login, Main.Password);
             logger.info("Connecting succesfull");
             connection.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
             String sql = "SELECT imie FROM restauracja.osoba WHERE id_osoby = ?";
-            statement = connection.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            statement = connection.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             statement.clearParameters();
-            statement.setInt(1,this.idOsoby);
+            statement.setInt(1, this.idOsoby);
             resultSet = statement.executeQuery();
             resultSet.next();
             this.setImie(resultSet.getString("imie"));
-            logger.info("Refresh Imie "+this.toString());
+            logger.info("Refresh Imie " + this.toString());
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-        }finally {
+        } finally {
             try {
                 if (statement != null && !statement.isClosed()) {
                     statement.close();
@@ -170,25 +166,25 @@ public class Osoba {
         }
     }
 
-    public void selectNazwisko(){
+    public void selectNazwisko() {
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
-            connection = DriverManager.getConnection(Main.URL,Main.Login,Main.Password);
+            connection = DriverManager.getConnection(Main.URL, Main.Login, Main.Password);
             logger.info("Connecting succesfull");
             connection.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
             String sql = "SELECT nazwisko FROM restauracja.osoba WHERE id_osoby = ?";
-            statement = connection.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            statement = connection.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             statement.clearParameters();
-            statement.setInt(1,this.idOsoby);
+            statement.setInt(1, this.idOsoby);
             resultSet = statement.executeQuery();
             resultSet.next();
             this.setNazwisko(resultSet.getString("nazwisko"));
-            logger.info("Refresh Nazwisko "+this.toString());
+            logger.info("Refresh Nazwisko " + this.toString());
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-        }finally {
+        } finally {
             try {
                 if (statement != null && !statement.isClosed()) {
                     statement.close();
@@ -202,25 +198,25 @@ public class Osoba {
         }
     }
 
-    public void selectPesel(){
+    public void selectPesel() {
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
-            connection = DriverManager.getConnection(Main.URL,Main.Login,Main.Password);
+            connection = DriverManager.getConnection(Main.URL, Main.Login, Main.Password);
             logger.info("Connecting succesfull");
             connection.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
             String sql = "SELECT pesel FROM restauracja.osoba WHERE id_osoby = ?";
-            statement = connection.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            statement = connection.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             statement.clearParameters();
-            statement.setInt(1,this.idOsoby);
+            statement.setInt(1, this.idOsoby);
             resultSet = statement.executeQuery();
             resultSet.next();
             this.setPesel(resultSet.getString("pesel"));
-            logger.info("Refresh Pesel "+this.toString());
+            logger.info("Refresh Pesel " + this.toString());
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-        }finally {
+        } finally {
             try {
                 if (statement != null && !statement.isClosed()) {
                     statement.close();
@@ -234,25 +230,25 @@ public class Osoba {
         }
     }
 
-    public void selectDataUrodzenia(){
+    public void selectDataUrodzenia() {
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
-            connection = DriverManager.getConnection(Main.URL,Main.Login,Main.Password);
+            connection = DriverManager.getConnection(Main.URL, Main.Login, Main.Password);
             logger.info("Connecting succesfull");
             connection.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
             String sql = "SELECT data_urodzania FROM restauracja.osoba WHERE id_osoby = ?";
-            statement = connection.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            statement = connection.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             statement.clearParameters();
-            statement.setInt(1,this.idOsoby);
+            statement.setInt(1, this.idOsoby);
             resultSet = statement.executeQuery();
             resultSet.next();
             this.setDataUrodzenia(resultSet.getDate("data_urodzenia"));
-            logger.info("Refresh Data Urodzenia "+this.toString());
+            logger.info("Refresh Data Urodzenia " + this.toString());
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-        }finally {
+        } finally {
             try {
                 if (statement != null && !statement.isClosed()) {
                     statement.close();
@@ -266,25 +262,25 @@ public class Osoba {
         }
     }
 
-    public void selectEmail(){
+    public void selectEmail() {
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
-            connection = DriverManager.getConnection(Main.URL,Main.Login,Main.Password);
+            connection = DriverManager.getConnection(Main.URL, Main.Login, Main.Password);
             logger.info("Connecting succesfull");
             connection.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
             String sql = "SELECT email FROM restauracja.osoba WHERE id_osoby = ?";
-            statement = connection.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            statement = connection.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             statement.clearParameters();
-            statement.setInt(1,this.idOsoby);
+            statement.setInt(1, this.idOsoby);
             resultSet = statement.executeQuery();
             resultSet.next();
             this.setEmail(resultSet.getString("email"));
-            logger.info("Refresh Email "+this.toString());
+            logger.info("Refresh Email " + this.toString());
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-        }finally {
+        } finally {
             try {
                 if (statement != null && !statement.isClosed()) {
                     statement.close();
@@ -298,25 +294,25 @@ public class Osoba {
         }
     }
 
-    public void selectTelefon(){
+    public void selectTelefon() {
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
-            connection = DriverManager.getConnection(Main.URL,Main.Login,Main.Password);
+            connection = DriverManager.getConnection(Main.URL, Main.Login, Main.Password);
             logger.info("Connecting succesfull");
             connection.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
             String sql = "SELECT telefon FROM restauracja.osoba WHERE id_osoby = ?";
-            statement = connection.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            statement = connection.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             statement.clearParameters();
-            statement.setInt(1,this.idOsoby);
+            statement.setInt(1, this.idOsoby);
             resultSet = statement.executeQuery();
             resultSet.next();
             this.setTelefon(resultSet.getString("telefon"));
-            logger.info("Refresh Telefon "+this.toString());
+            logger.info("Refresh Telefon " + this.toString());
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-        }finally {
+        } finally {
             try {
                 if (statement != null && !statement.isClosed()) {
                     statement.close();
@@ -330,98 +326,26 @@ public class Osoba {
         }
     }
 
-    public void updateImie(){
+    public void updateImie() {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
-            connection = DriverManager.getConnection(Main.URL,Main.Login,Main.Password);
+            connection = DriverManager.getConnection(Main.URL, Main.Login, Main.Password);
             logger.info("Connecting succesfull");
             connection.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
-            String sql = "UPDATE restauracja.osoba SET imie = ? WHERE id_osoby = ?;";
-            statement = connection.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-            statement.clearParameters();
-            statement.setString(1,this.imie);
-            statement.setInt(2,this.idOsoby);
-
-            int rowsInserted  = statement.executeUpdate();
-            if(rowsInserted>0){
-                logger.info("Succes Update Imie");
-            }else{
-                logger.info("Not Update");
-            }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }finally {
-            try {
-                if (statement != null && !statement.isClosed()) {
-                    statement.close();
-                }
-                if (connection != null && !connection.isClosed()) {
-                    connection.close();
-                }
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-            }
-        }
-    }
-
-    public void updateNazwisko(){
-        Connection connection = null;
-        PreparedStatement statement = null;
-        try {
-            connection = DriverManager.getConnection(Main.URL,Main.Login,Main.Password);
-            logger.info("Connecting succesfull");
-            connection.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
-            String sql = "UPDATE restauracja.osoba SET nazwisko = ? WHERE id_osoby = ?;";
-            statement = connection.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-            statement.clearParameters();
-            statement.setString(1,this.nazwisko);
-            statement.setInt(2,this.idOsoby);
-
-            int rowsInserted  = statement.executeUpdate();
-            if(rowsInserted>0){
-                logger.info("Succes Update Nazwisko");
-            }else{
-                logger.info("Not Update");
-            }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }finally {
-            try {
-                if (statement != null && !statement.isClosed()) {
-                    statement.close();
-                }
-                if (connection != null && !connection.isClosed()) {
-                    connection.close();
-                }
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-            }
-        }
-    }
-
-    public void updatePesel(){
-        Connection connection = null;
-        PreparedStatement statement = null;
-        try {
-            connection = DriverManager.getConnection(Main.URL,Main.Login,Main.Password);
-            logger.info("Connecting succesfull");
-            connection.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
-            String sql = "UPDATE restauracja.osoba SET pesel = ? WHERE id_osoby = ?;";
+            String sql = "UPDATE restauracja.osoba SET imie = ? WHERE id_osoby = ? RETURNING imie;";
             statement = connection.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             statement.clearParameters();
-            statement.setString(1,this.pesel);
-            statement.setInt(2,this.idOsoby);
+            statement.setString(1, this.imie);
+            statement.setInt(2, this.idOsoby);
 
-            int rowsInserted  = statement.executeUpdate();
-            if(rowsInserted>0){
-                logger.info("Succes Update Data Urodzenia");
-            }else{
-                logger.info("Not Update");
-            }
+            ResultSet resultSet = statement.executeQuery();
+            resultSet.next();
+            System.out.println(resultSet.getString("imie"));
+            logger.info("Succes Update Imie " + this.toString());
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-        }finally {
+        } finally {
             try {
                 if (statement != null && !statement.isClosed()) {
                     statement.close();
@@ -435,28 +359,94 @@ public class Osoba {
         }
     }
 
-    public void updateDataUrodzenia(){
+    public void updateNazwisko() {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
-            connection = DriverManager.getConnection(Main.URL,Main.Login,Main.Password);
+            connection = DriverManager.getConnection(Main.URL, Main.Login, Main.Password);
             logger.info("Connecting succesfull");
             connection.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
-            String sql = "UPDATE restauracja.osoba SET data_urodzenia = ? WHERE id_osoby = ?;";
+            String sql = "UPDATE restauracja.osoba SET nazwisko = ? WHERE id_osoby = ? RETURNING nazwisko;";
+            statement = connection.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            statement.clearParameters();
+            statement.setString(1, this.nazwisko);
+            statement.setInt(2, this.idOsoby);
+
+            ResultSet resultSet = statement.executeQuery();
+            resultSet.next();
+            this.setNazwisko(resultSet.getString("nazwisko"));
+            logger.info("Succes Update Nazwisko " + this.toString());
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } finally {
+            try {
+                if (statement != null && !statement.isClosed()) {
+                    statement.close();
+                }
+                if (connection != null && !connection.isClosed()) {
+                    connection.close();
+                }
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        }
+    }
+
+    public void updatePesel() {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        try {
+            connection = DriverManager.getConnection(Main.URL, Main.Login, Main.Password);
+            logger.info("Connecting succesfull");
+            connection.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
+            String sql = "UPDATE restauracja.osoba SET pesel = ? WHERE id_osoby = ? RETURNING pesel;";
+            statement = connection.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            statement.clearParameters();
+            statement.setString(1, this.pesel);
+            statement.setInt(2, this.idOsoby);
+
+            ResultSet resultSet = statement.executeQuery();
+            resultSet.next();
+            this.setPesel(resultSet.getString("pesel"));
+            logger.info("Succes Update Pesel" + this.toString());
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } finally {
+            try {
+                if (statement != null && !statement.isClosed()) {
+                    statement.close();
+                }
+                if (connection != null && !connection.isClosed()) {
+                    connection.close();
+                }
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        }
+    }
+
+    public void updateDataUrodzenia() {
+        //TODO CHECK HOW IT WORK.
+        Connection connection = null;
+        PreparedStatement statement = null;
+        try {
+            connection = DriverManager.getConnection(Main.URL, Main.Login, Main.Password);
+            logger.info("Connecting succesfull");
+            connection.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
+            String sql = "UPDATE restauracja.osoba SET data_urodzenia = ? WHERE id_osoby = ? RETURNING data_urodzenia;";
             statement = connection.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             statement.clearParameters();
             statement.setDate(1, new java.sql.Date(this.dataUrodzenia.getTime()));
-            statement.setInt(2,this.idOsoby);
+            statement.setInt(2, this.idOsoby);
 
-            int rowsInserted  = statement.executeUpdate();
-            if(rowsInserted>0){
-                logger.info("Succes Update Data Urodzenia");
-            }else{
-                logger.info("Not Update");
-            }
+            ResultSet resultSet = statement.executeQuery();
+            resultSet.next();
+            this.setDataUrodzenia(resultSet.getDate("data_urodzenia"));
+            logger.info("Succes Update Data Urodzenia");
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-        }finally {
+        } finally {
             try {
                 if (statement != null && !statement.isClosed()) {
                     statement.close();
@@ -470,28 +460,26 @@ public class Osoba {
         }
     }
 
-    public void updateEmail(){
+    public void updateEmail() {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
-            connection = DriverManager.getConnection(Main.URL,Main.Login,Main.Password);
+            connection = DriverManager.getConnection(Main.URL, Main.Login, Main.Password);
             logger.info("Connecting succesfull");
             connection.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
-            String sql = "UPDATE restauracja.osoba SET email = ? WHERE id_osoby = ?;";
-            statement = connection.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            String sql = "UPDATE restauracja.osoba SET email = ? WHERE id_osoby = ? RETURNING email;";
+            statement = connection.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             statement.clearParameters();
-            statement.setString(1,this.email);
-            statement.setInt(2,this.idOsoby);
+            statement.setString(1, this.email);
+            statement.setInt(2, this.idOsoby);
 
-            int rowsInserted  = statement.executeUpdate();
-            if(rowsInserted>0){
-                logger.info("Succes Update Email");
-            }else{
-                logger.info("Not Update");
-            }
+            ResultSet resultSet = statement.executeQuery();
+            resultSet.next();
+            this.setEmail(resultSet.getString("email"));
+            logger.info("Succes Update Email " + this.toString());
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-        }finally {
+        } finally {
             try {
                 if (statement != null && !statement.isClosed()) {
                     statement.close();
@@ -505,28 +493,26 @@ public class Osoba {
         }
     }
 
-    public void updateTelefon(){
+    public void updateTelefon() {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
-            connection = DriverManager.getConnection(Main.URL,Main.Login,Main.Password);
+            connection = DriverManager.getConnection(Main.URL, Main.Login, Main.Password);
             logger.info("Connecting succesfull");
             connection.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
-            String sql = "UPDATE restauracja.osoba SET telefon = ? WHERE id_osoby = ?;";
-            statement = connection.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            String sql = "UPDATE restauracja.osoba SET telefon = ? WHERE id_osoby = ? RETURNING telefon;";
+            statement = connection.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             statement.clearParameters();
-            statement.setString(1,this.telefon);
-            statement.setInt(2,this.idOsoby);
+            statement.setString(1, this.telefon);
+            statement.setInt(2, this.idOsoby);
 
-            int rowsInserted  = statement.executeUpdate();
-            if(rowsInserted>0){
-                logger.info("Succes Update Telefon");
-            }else{
-                logger.info("Not Update");
-            }
+            ResultSet resultSet = statement.executeQuery();
+            resultSet.next();
+            this.setTelefon(resultSet.getString("telefon"));
+            logger.info("Succes Update Telefon " + this.toString());
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-        }finally {
+        } finally {
             try {
                 if (statement != null && !statement.isClosed()) {
                     statement.close();
@@ -539,7 +525,6 @@ public class Osoba {
             }
         }
     }
-
 
     @Override
     public String toString() {

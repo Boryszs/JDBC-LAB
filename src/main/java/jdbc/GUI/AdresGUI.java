@@ -5,6 +5,8 @@ import jdbc.model.Adres;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
 
 public class AdresGUI extends JFrame {
@@ -17,9 +19,15 @@ public class AdresGUI extends JFrame {
         JTable table = new JTable(adresTableModel);
         table.setPreferredScrollableViewportSize(new Dimension(850,600));
         JScrollPane scrollPane = new JScrollPane(table);
+        JButton buttonBack = new JButton("<-");
+        buttonBack.setAlignmentX(Component.LEFT_ALIGNMENT);
         JPanel mainPanel = new JPanel();
+        JPanel panelB = new JPanel();
+        panelB.setLayout(new BorderLayout());
+        panelB.add(buttonBack,BorderLayout.WEST);
         JPanel tablePanel = new JPanel();
         tablePanel.add(scrollPane);
+        mainPanel.add(panelB);
         mainPanel.add(tablePanel);
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
         this.add(mainPanel);
@@ -28,5 +36,18 @@ public class AdresGUI extends JFrame {
         this.pack();
         this.setTitle("Adresy klientów z bazy Restauracja");
         this.setVisible(true);
+
+        buttonBack.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                SwingUtilities.invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        new ChooseWindow();
+                    }
+                });
+                dispose();
+            }
+        });
     }
 }

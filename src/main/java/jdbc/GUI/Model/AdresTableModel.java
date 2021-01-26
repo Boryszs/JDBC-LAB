@@ -80,12 +80,16 @@ public class AdresTableModel extends AbstractTableModel {
 
         if (columnIndex == 1) {
             row.setMiejscowosc((String) aValue);
+            row.updateMiejscowosc();
         } else if (columnIndex == 2) {
             row.setUlica((String) aValue);
+            row.updateUlica();
         } else if (columnIndex == 3) {
             row.setNrDomu((String) aValue);
+            row.updateNrDomu();
         } else if (columnIndex == 4) {
             row.setKodPocztowy((String) aValue);
+            row.updateKodPocztowy();
         }
     }
 }

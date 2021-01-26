@@ -10,7 +10,7 @@ import java.util.List;
 
 public class Adres {
 
-    private static final Logger logger = LoggerFactory.getLogger(Klient.class);
+    private static final Logger logger = LoggerFactory.getLogger(Adres.class);
 
     private int idAdresu;
     private String miejscowosc;
@@ -73,7 +73,7 @@ public class Adres {
         this.kodPocztowy = kodPocztowy;
     }
 
-    public static List<Adres> getAdresy(){
+    public static List<Adres> getAdresy() {
         Connection connection = null;
         Statement statement = null;
         List<Adres> adresy = new LinkedList<>();
@@ -82,18 +82,12 @@ public class Adres {
             logger.info("Connecting succesfull");
             connection.setAutoCommit(false);
             statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM restauracja.adres;");
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM restauracja.adres ORDER BY id_adresu;");
             logger.info("Execute Querry");
             ResultSetMetaData metaData = resultSet.getMetaData();
-            System.out.println(metaData.getColumnType(1));
-            System.out.println(metaData.getColumnType(2));
-            System.out.println(metaData.getColumnType(3));
-            System.out.println(metaData.getColumnType(4));
-            System.out.println(metaData.getColumnType(5));
-
 
             while (resultSet.next()) {
-                adresy.add(new Adres(resultSet.getInt("id_adresu"),resultSet.getString("miejscowosc"),resultSet.getString("ulica"),resultSet.getString("nr_domu"),resultSet.getString("kod_pocztowy")));
+                adresy.add(new Adres(resultSet.getInt("id_adresu"), resultSet.getString("miejscowosc"), resultSet.getString("ulica"), resultSet.getString("nr_domu"), resultSet.getString("kod_pocztowy")));
             }
             resultSet.close();
             statement.close();
@@ -102,22 +96,150 @@ public class Adres {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         } finally {
-            if (statement != null) {
-                try {
+            try {
+                if (statement != null && !statement.isClosed()) {
                     statement.close();
-                } catch (SQLException throwables) {
-                    throwables.printStackTrace();
                 }
-            }
-            if (connection != null) {
-                try {
+                if (connection != null && !connection.isClosed()) {
                     connection.close();
-                } catch (SQLException throwables) {
-                    throwables.printStackTrace();
                 }
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
             }
         }
         return adresy;
+    }
+
+    public void updateMiejscowosc() {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        try {
+            connection = DriverManager.getConnection(Main.URL, Main.Login, Main.Password);
+            logger.info("Connecting succesfull");
+            connection.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
+            String sql = "UPDATE restauracja.adres SET miejscowosc = ? WHERE id_adresu = ? RETURNING miejscowosc;";
+            statement = connection.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            statement.clearParameters();
+            statement.setString(1, this.miejscowosc);
+            statement.setInt(2, this.idAdresu);
+
+            ResultSet resultSet = statement.executeQuery();
+            resultSet.next();
+            this.setMiejscowosc(resultSet.getString("miejscowosc"));
+            logger.info("Succes Update Miejscowosc " + this.toString());
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } finally {
+            try {
+                if (statement != null && !statement.isClosed()) {
+                    statement.close();
+                }
+                if (connection != null && !connection.isClosed()) {
+                    connection.close();
+                }
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        }
+    }
+
+    public void updateUlica() {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        try {
+            connection = DriverManager.getConnection(Main.URL, Main.Login, Main.Password);
+            logger.info("Connecting succesfull");
+            connection.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
+            String sql = "UPDATE restauracja.adres SET ulica = ? WHERE id_adresu = ? RETURNING ulica;";
+            statement = connection.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            statement.clearParameters();
+            statement.setString(1, this.ulica);
+            statement.setInt(2, this.idAdresu);
+
+            ResultSet resultSet = statement.executeQuery();
+            resultSet.next();
+            this.setUlica(resultSet.getString("ulica"));
+            logger.info("Succes Update Ulica " + this.toString());
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } finally {
+            try {
+                if (statement != null && !statement.isClosed()) {
+                    statement.close();
+                }
+                if (connection != null && !connection.isClosed()) {
+                    connection.close();
+                }
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        }
+    }
+
+    public void updateNrDomu(){
+        Connection connection = null;
+        PreparedStatement statement = null;
+        try {
+            connection = DriverManager.getConnection(Main.URL, Main.Login, Main.Password);
+            logger.info("Connecting succesfull");
+            connection.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
+            String sql = "UPDATE restauracja.adres SET nr_domu = ? WHERE id_adresu = ? RETURNING nr_domu;";
+            statement = connection.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            statement.clearParameters();
+            statement.setString(1, this.nrDomu);
+            statement.setInt(2, this.idAdresu);
+
+            ResultSet resultSet = statement.executeQuery();
+            resultSet.next();
+            this.setUlica(resultSet.getString("nr_domu"));
+            logger.info("Succes Update Nr Domu " + this.toString());
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } finally {
+            try {
+                if (statement != null && !statement.isClosed()) {
+                    statement.close();
+                }
+                if (connection != null && !connection.isClosed()) {
+                    connection.close();
+                }
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        }
+    }
+
+    public void updateKodPocztowy(){
+        Connection connection = null;
+        PreparedStatement statement = null;
+        try {
+            connection = DriverManager.getConnection(Main.URL, Main.Login, Main.Password);
+            logger.info("Connecting succesfull");
+            connection.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
+            String sql = "UPDATE restauracja.adres SET kod_pocztowy = ? WHERE id_adresu = ? RETURNING kod_pocztowy;";
+            statement = connection.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            statement.clearParameters();
+            statement.setString(1, this.kodPocztowy);
+            statement.setInt(2, this.idAdresu);
+
+            ResultSet resultSet = statement.executeQuery();
+            resultSet.next();
+            this.setUlica(resultSet.getString("kod_pocztowy"));
+            logger.info("Succes Update Nr Domu " + this.toString());
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } finally {
+            try {
+                if (statement != null && !statement.isClosed()) {
+                    statement.close();
+                }
+                if (connection != null && !connection.isClosed()) {
+                    connection.close();
+                }
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        }
     }
 
     @Override

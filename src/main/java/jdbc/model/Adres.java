@@ -95,9 +95,6 @@ public class Adres {
                 adresy.add(new Adres(resultSet.getInt("id_adresu"), resultSet.getString("miejscowosc"), resultSet.getString("ulica"), resultSet.getString("nr_domu"), resultSet.getString("kod_pocztowy")));
             }
             resultSet.close();
-            statement.close();
-            connection.close();
-
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         } finally {
@@ -132,6 +129,7 @@ public class Adres {
             resultSet.next();
             this.setMiejscowosc(resultSet.getString("miejscowosc"));
             logger.info("Succes Update Miejscowosc " + this.toString());
+            resultSet.close();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         } finally {
@@ -165,6 +163,7 @@ public class Adres {
             resultSet.next();
             this.setUlica(resultSet.getString("ulica"));
             logger.info("Succes Update Ulica " + this.toString());
+            resultSet.close();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         } finally {
@@ -198,6 +197,7 @@ public class Adres {
             resultSet.next();
             this.setUlica(resultSet.getString("nr_domu"));
             logger.info("Succes Update Nr Domu " + this.toString());
+            resultSet.close();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         } finally {
@@ -231,6 +231,7 @@ public class Adres {
             resultSet.next();
             this.setUlica(resultSet.getString("kod_pocztowy"));
             logger.info("Succes Update Nr Domu " + this.toString());
+            resultSet.close();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         } finally {

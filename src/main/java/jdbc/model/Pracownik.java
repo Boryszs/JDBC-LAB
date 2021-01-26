@@ -5,7 +5,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.sql.*;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -75,9 +74,6 @@ public class Pracownik {
                 pracownicy.add(new Pracownik(resultSet.getInt(1), resultSet.getDouble(2), resultSet.getString(3), resultSet.getInt(4)));
             }
             resultSet.close();
-            statement.close();
-            connection.close();
-
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         } finally {
@@ -112,6 +108,7 @@ public class Pracownik {
             resultSet.next();
             this.setPensja(resultSet.getDouble("pensja"));
             logger.info("Succes Update Pensja " + this.toString());
+            resultSet.close();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         } finally {
@@ -144,7 +141,6 @@ public class Pracownik {
 
             ResultSet resultSet = statement.executeQuery();
             resultSet.next();
-            System.out.println(resultSet.getString("rola"));
             this.setRola(resultSet.getString("rola"));
             logger.info("Succes Update Rola " + this.toString());
             resultSet.close();

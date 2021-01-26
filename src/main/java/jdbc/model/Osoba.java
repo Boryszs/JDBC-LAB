@@ -114,9 +114,6 @@ public class Osoba {
                 osoby.add(new Osoba(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getString(4), resultSet.getDate(5), resultSet.getString(6), resultSet.getString(7), resultSet.getInt(8)));
             }
             resultSet.close();
-            statement.close();
-            connection.close();
-
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         } finally {
@@ -151,6 +148,7 @@ public class Osoba {
             resultSet.next();
             this.setImie(resultSet.getString("imie"));
             logger.info("Succes Update Imie " + this.toString());
+            resultSet.close();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         } finally {
@@ -184,6 +182,7 @@ public class Osoba {
             resultSet.next();
             this.setNazwisko(resultSet.getString("nazwisko"));
             logger.info("Succes Update Nazwisko " + this.toString());
+            resultSet.close();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         } finally {
@@ -217,7 +216,7 @@ public class Osoba {
             resultSet.next();
             this.setPesel(resultSet.getString("pesel"));
             logger.info("Succes Update Pesel" + this.toString());
-
+            resultSet.close();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         } finally {
@@ -252,6 +251,7 @@ public class Osoba {
             resultSet.next();
             this.setDataUrodzenia(resultSet.getDate("data_urodzenia"));
             logger.info("Succes Update Data Urodzenia");
+            resultSet.close();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         } finally {
@@ -285,6 +285,7 @@ public class Osoba {
             resultSet.next();
             this.setEmail(resultSet.getString("email"));
             logger.info("Succes Update Email " + this.toString());
+            resultSet.close();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         } finally {
@@ -318,6 +319,7 @@ public class Osoba {
             resultSet.next();
             this.setTelefon(resultSet.getString("telefon"));
             logger.info("Succes Update Telefon " + this.toString());
+            resultSet.close();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         } finally {

@@ -138,9 +138,6 @@ public class Klient {
                 klienci.add(new Klient(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getInt(4)));
             }
             resultSet.close();
-            statement.close();
-            connection.close();
-
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         } finally {
@@ -210,6 +207,7 @@ public class Klient {
             resultSet.next();
             this.setLogin(resultSet.getString("login"));
             logger.info("Update Login Successfull " + this.toString());
+            resultSet.close();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         } finally {
@@ -243,7 +241,7 @@ public class Klient {
             resultSet.next();
             this.setHaslo(resultSet.getString("haslo"));
             logger.info("Update Haslo Successfull " + this.toString());
-
+            resultSet.close();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         } finally {

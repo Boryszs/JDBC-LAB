@@ -18,7 +18,7 @@ public class ChooseWindow extends JFrame {
         Panel panelC = new Panel();
         Panel panelB = new Panel();
         String choose [] = {"Wybierz","Klient","Ososby","Adresy","Pracownicy"};
-        Label label = new Label("Wybierz baze:");
+        Label label = new Label("Wybierz tabele:");
         JComboBox jCheckBox = new JComboBox(choose);
         panelC.add(label);
         panelC.add(jCheckBox);

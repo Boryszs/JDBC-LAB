@@ -5,7 +5,8 @@ import javax.swing.table.AbstractTableModel;
 import java.util.List;
 
 public class AdresTableModel extends AbstractTableModel {
-    List<Adres> adresy;
+
+    List<Adres> adresList;
 
     private final String[] columnNames = new String[]{
             "IdAdresu", "Miejscowosc", "Ulica", "nrDomu", "kodPocztowy"
@@ -15,24 +16,24 @@ public class AdresTableModel extends AbstractTableModel {
             Integer.class, String.class, String.class, String.class, String.class
     };
 
-    public List<Adres> getAdresy() {
-        return adresy;
+    public List<Adres> getAdresList() {
+        return adresList;
     }
 
-    public void setAdresy(List<Adres> adresy) {
-        this.adresy = adresy;
+    public void setAdresList(List<Adres> adresList) {
+        this.adresList = adresList;
     }
 
     public AdresTableModel() {
     }
 
     public AdresTableModel(List<Adres> adresy) {
-        this.adresy = adresy;
+        this.adresList = adresy;
     }
 
     @Override
     public int getRowCount() {
-        return adresy.size();
+        return adresList.size();
     }
 
     @Override
@@ -53,7 +54,7 @@ public class AdresTableModel extends AbstractTableModel {
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        Adres row = adresy.get(rowIndex);
+        Adres row = adresList.get(rowIndex);
 
         if (columnIndex == 0) {
             return row.getIdAdresu();
@@ -76,7 +77,7 @@ public class AdresTableModel extends AbstractTableModel {
 
     @Override
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-        Adres row = adresy.get(rowIndex);
+        Adres row = adresList.get(rowIndex);
 
         if (columnIndex == 1) {
             row.setMiejscowosc((String) aValue);

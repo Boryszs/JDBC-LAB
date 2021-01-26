@@ -12,16 +12,21 @@ public class Adres {
 
     private static final Logger logger = LoggerFactory.getLogger(Adres.class);
 
-    private int idAdresu;
+    private Integer idAdresu;
     private String miejscowosc;
     private String ulica;
     private String nrDomu;
     private String kodPocztowy;
 
     public Adres() {
+        this.idAdresu = null;
+        this.miejscowosc = null;
+        this.ulica = null;
+        this.nrDomu = null;
+        this.kodPocztowy = null;
     }
 
-    public Adres(int idAdresu, String miejscowosc, String ulica, String nrDomu, String kodPocztowy) {
+    public Adres(Integer idAdresu, String miejscowosc, String ulica, String nrDomu, String kodPocztowy) {
         this.idAdresu = idAdresu;
         this.miejscowosc = miejscowosc;
         this.ulica = ulica;
@@ -33,7 +38,7 @@ public class Adres {
         return logger;
     }
 
-    public int getIdAdresu() {
+    public Integer getIdAdresu() {
         return idAdresu;
     }
 
@@ -53,7 +58,7 @@ public class Adres {
         return kodPocztowy;
     }
 
-    public void setIdAdresu(int idAdresu) {
+    public void setIdAdresu(Integer idAdresu) {
         this.idAdresu = idAdresu;
     }
 

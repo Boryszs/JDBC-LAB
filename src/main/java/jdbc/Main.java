@@ -2,6 +2,7 @@ package jdbc;
 
 import jdbc.GUI.ChooseWindow;
 import jdbc.model.Adres;
+import jdbc.model.Pracownik;
 
 import javax.swing.*;
 

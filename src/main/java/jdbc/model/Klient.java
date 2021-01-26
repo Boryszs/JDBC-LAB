@@ -12,22 +12,22 @@ public class Klient {
 
     private static final Logger logger = LoggerFactory.getLogger(Klient.class);
 
-    private int idKlient;
+    private Integer idKlient;
     private String login;
     private String haslo;
-    private int idOsoby;
+    private Integer idOsoby;
 
     public Klient() {
     }
 
-    public Klient(int idKlient, String login, String haslo, int idOsoby) {
+    public Klient(Integer idKlient, String login, String haslo, Integer idOsoby) {
         this.idKlient = idKlient;
         this.login = login;
         this.haslo = haslo;
         this.idOsoby = idOsoby;
     }
 
-    public int getIdKlient() {
+    public Integer getIdKlient() {
         return idKlient;
     }
 
@@ -39,11 +39,11 @@ public class Klient {
         return haslo;
     }
 
-    public int getIdOsoby() {
+    public Integer getIdOsoby() {
         return idOsoby;
     }
 
-    public void setIdKlient(int idKlient) {
+    public void setIdKlient(Integer idKlient) {
         this.idKlient = idKlient;
     }
 
@@ -55,7 +55,7 @@ public class Klient {
         this.haslo = haslo;
     }
 
-    public void setIdOsoby(int idOsoby) {
+    public void setIdOsoby(Integer idOsoby) {
         this.idOsoby = idOsoby;
     }
 

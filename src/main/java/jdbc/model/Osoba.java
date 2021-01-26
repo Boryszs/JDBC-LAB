@@ -149,7 +149,7 @@ public class Osoba {
 
             ResultSet resultSet = statement.executeQuery();
             resultSet.next();
-            System.out.println(resultSet.getString("imie"));
+            this.setImie(resultSet.getString("imie"));
             logger.info("Succes Update Imie " + this.toString());
         } catch (SQLException throwables) {
             throwables.printStackTrace();

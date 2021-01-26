@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.sql.*;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -13,14 +14,14 @@ public class Pracownik {
     private static final Logger logger = LoggerFactory.getLogger(Pracownik.class);
 
     private Integer idPracownika;
-    private String pensja;
+    private Double pensja;
     private String rola;
     private Integer idOsoby;
 
     public Pracownik() {
     }
 
-    public Pracownik(Integer idPracownika, String pensja, String rola, Integer idOsoby) {
+    public Pracownik(Integer idPracownika, Double pensja, String rola, Integer idOsoby) {
         this.idPracownika = idPracownika;
         this.pensja = pensja;
         this.rola = rola;
@@ -31,7 +32,7 @@ public class Pracownik {
         return idPracownika;
     }
 
-    public String getPensja() {
+    public Double getPensja() {
         return pensja;
     }
 
@@ -47,7 +48,7 @@ public class Pracownik {
         this.idPracownika = idPracownika;
     }
 
-    public void setPensja(String pensja) {
+    public void setPensja(Double pensja) {
         this.pensja = pensja;
     }
 
@@ -59,7 +60,7 @@ public class Pracownik {
         this.idOsoby = idOsoby;
     }
 
-    public static List<Pracownik> getPracownik(){
+    public static List<Pracownik> getPracownik() {
         Connection connection = null;
         Statement statement = null;
         List<Pracownik> pracownicy = new LinkedList<>();
@@ -70,16 +71,8 @@ public class Pracownik {
             statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT * FROM restauracja.pracownik ORDER BY id_pracownika;");
             logger.info("Execute Querry");
-
-            ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
-
-            System.out.println(resultSetMetaData.getColumnType(1));
-            System.out.println(resultSetMetaData.getColumnType(2));
-            System.out.println(resultSetMetaData.getColumnType(3));
-            System.out.println(resultSetMetaData.getColumnType(4));
-
             while (resultSet.next()) {
-                pracownicy.add(new Pracownik(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getInt(4)));
+                pracownicy.add(new Pracownik(resultSet.getInt(1), resultSet.getDouble(2), resultSet.getString(3), resultSet.getInt(4)));
             }
             resultSet.close();
             statement.close();
@@ -101,6 +94,76 @@ public class Pracownik {
         }
         return pracownicy;
     }
+
+    public void updatePensja() {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        try {
+            connection = DriverManager.getConnection(Main.URL, Main.Login, Main.Password);
+            logger.info("Connecting succesfull");
+            connection.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
+            String sql = "UPDATE restauracja.pracownik SET pensja = ? WHERE id_osoby = ? RETURNING pensja;";
+            statement = connection.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            statement.clearParameters();
+            statement.setDouble(1, this.pensja);
+            statement.setInt(2, this.idOsoby);
+
+            ResultSet resultSet = statement.executeQuery();
+            resultSet.next();
+            this.setPensja(resultSet.getDouble("pensja"));
+            logger.info("Succes Update Pensja " + this.toString());
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } finally {
+            try {
+                if (statement != null && !statement.isClosed()) {
+                    statement.close();
+                }
+                if (connection != null && !connection.isClosed()) {
+                    connection.close();
+                }
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        }
+    }
+
+    public void updateRola() {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        try {
+            connection = DriverManager.getConnection(Main.URL, Main.Login, Main.Password);
+            logger.info("Connecting succesfull");
+            connection.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
+            String sql = "UPDATE restauracja.pracownik SET rola = (? :: restauracja.\"Rola\") WHERE id_osoby = ? RETURNING rola;";
+            statement = connection.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            statement.clearParameters();
+
+            statement.setString(1, this.rola);
+            statement.setInt(2, this.idOsoby);
+
+            ResultSet resultSet = statement.executeQuery();
+            resultSet.next();
+            System.out.println(resultSet.getString("rola"));
+            this.setRola(resultSet.getString("rola"));
+            logger.info("Succes Update Rola " + this.toString());
+            resultSet.close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } finally {
+            try {
+                if (statement != null && !statement.isClosed()) {
+                    statement.close();
+                }
+                if (connection != null && !connection.isClosed()) {
+                    connection.close();
+                }
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        }
+    }
+
 
     @Override
     public String toString() {

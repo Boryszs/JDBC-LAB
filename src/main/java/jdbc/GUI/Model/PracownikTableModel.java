@@ -77,11 +77,11 @@ public class PracownikTableModel extends AbstractTableModel{
         Pracownik row = pracownikList.get(rowIndex);
 
         if (columnIndex == 1) {
-            row.setPensja((String) aValue);
+            row.setPensja(Double.parseDouble((String) aValue));
+            row.updatePensja();
         } else if (columnIndex == 2) {
             row.setRola((String) aValue);
-        } else if (columnIndex == 3) {
-            row.setIdOsoby((Integer) aValue);
+            row.updateRola();
         }
     }
 }

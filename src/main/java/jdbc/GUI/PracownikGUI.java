@@ -4,6 +4,7 @@ import jdbc.GUI.Model.PracownikTableModel;
 import jdbc.model.Pracownik;
 
 import javax.swing.*;
+import javax.swing.table.TableColumn;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,6 +16,12 @@ public class PracownikGUI extends JFrame {
         JTable table = new JTable(pracownikTableModel);
         table.setPreferredScrollableViewportSize(new Dimension(700,600));
         table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+        TableColumn rola = table.getColumnModel().getColumn(2);
+        JComboBox comboBox = new JComboBox();
+        comboBox.addItem("kucharz");
+        comboBox.addItem("kelner");
+        comboBox.addItem("sprzedawca");
+        rola.setCellEditor(new DefaultCellEditor(comboBox));
         JScrollPane scrollPane = new JScrollPane(table);
         JButton buttonBack = new JButton("<-");
         buttonBack.setAlignmentX(Component.LEFT_ALIGNMENT);

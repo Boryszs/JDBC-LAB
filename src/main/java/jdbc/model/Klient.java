@@ -126,18 +126,18 @@ public class Klient {
     public static List<Klient> getKlient() {
         Connection connection = null;
         Statement statement = null;
+        ResultSet resultSet = null;
         List<Klient> klienci = new LinkedList<>();
         try {
             connection = DriverManager.getConnection(Main.URL, Main.Login, Main.Password);
             logger.info("Connecting succesfull");
             connection.setAutoCommit(false);
             statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM restauracja.klient ORDER BY id_klienta;");
+            resultSet = statement.executeQuery("SELECT * FROM restauracja.klient ORDER BY id_klienta;");
             logger.info("Execute Querry");
             while (resultSet.next()) {
                 klienci.add(new Klient(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getInt(4)));
             }
-            resultSet.close();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         } finally {
@@ -148,6 +148,10 @@ public class Klient {
                 if (connection != null && !connection.isClosed()) {
                     connection.close();
                 }
+                if (resultSet != null && !resultSet.isClosed()) {
+                    resultSet.close();
+                }
+
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
@@ -193,6 +197,8 @@ public class Klient {
     public void updateLogin() {
         Connection connection = null;
         PreparedStatement statement = null;
+        ResultSet resultSet = null;
+
         try {
             connection = DriverManager.getConnection(Main.URL, Main.Login, Main.Password);
             logger.info("Connecting succesfull");
@@ -203,11 +209,10 @@ public class Klient {
             statement.setString(1, this.login);
             statement.setInt(2, this.idKlient);
 
-            ResultSet resultSet = statement.executeQuery();
+            resultSet = statement.executeQuery();
             resultSet.next();
             this.setLogin(resultSet.getString("login"));
             logger.info("Update Login Successfull " + this.toString());
-            resultSet.close();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         } finally {
@@ -217,6 +222,9 @@ public class Klient {
                 }
                 if (connection != null && !connection.isClosed()) {
                     connection.close();
+                }
+                if (resultSet != null && !resultSet.isClosed()) {
+                    resultSet.close();
                 }
             } catch (Exception e) {
                 System.out.println(e.getMessage());
@@ -227,6 +235,7 @@ public class Klient {
     public void updateHaslo() {
         Connection connection = null;
         PreparedStatement statement = null;
+        ResultSet resultSet = null;
         try {
             connection = DriverManager.getConnection(Main.URL, Main.Login, Main.Password);
             logger.info("Connecting succesfull");
@@ -237,11 +246,10 @@ public class Klient {
             statement.setString(1, this.haslo);
             statement.setInt(2, this.idKlient);
 
-            ResultSet resultSet = statement.executeQuery();
+            resultSet = statement.executeQuery();
             resultSet.next();
             this.setHaslo(resultSet.getString("haslo"));
             logger.info("Update Haslo Successfull " + this.toString());
-            resultSet.close();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         } finally {
@@ -251,6 +259,9 @@ public class Klient {
                 }
                 if (connection != null && !connection.isClosed()) {
                     connection.close();
+                }
+                if (resultSet != null && !resultSet.isClosed()) {
+                    resultSet.close();
                 }
             } catch (Exception e) {
                 System.out.println(e.getMessage());

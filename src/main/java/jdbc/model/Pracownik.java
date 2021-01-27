@@ -62,18 +62,18 @@ public class Pracownik {
     public static List<Pracownik> getPracownik() {
         Connection connection = null;
         Statement statement = null;
+        ResultSet resultSet = null;
         List<Pracownik> pracownicy = new LinkedList<>();
         try {
             connection = DriverManager.getConnection(Main.URL, Main.Login, Main.Password);
             logger.info("Connecting succesfull");
             connection.setAutoCommit(false);
             statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM restauracja.pracownik ORDER BY id_pracownika;");
+            resultSet = statement.executeQuery("SELECT * FROM restauracja.pracownik ORDER BY id_pracownika;");
             logger.info("Execute Querry");
             while (resultSet.next()) {
                 pracownicy.add(new Pracownik(resultSet.getInt(1), resultSet.getDouble(2), resultSet.getString(3), resultSet.getInt(4)));
             }
-            resultSet.close();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         } finally {
@@ -83,6 +83,9 @@ public class Pracownik {
                 }
                 if (connection != null && !connection.isClosed()) {
                     connection.close();
+                }
+                if (resultSet != null && !resultSet.isClosed()) {
+                    resultSet.close();
                 }
             } catch (Exception e) {
                 System.out.println(e.getMessage());
@@ -94,6 +97,7 @@ public class Pracownik {
     public void updatePensja() {
         Connection connection = null;
         PreparedStatement statement = null;
+        ResultSet resultSet = null;
         try {
             connection = DriverManager.getConnection(Main.URL, Main.Login, Main.Password);
             logger.info("Connecting succesfull");
@@ -104,11 +108,10 @@ public class Pracownik {
             statement.setDouble(1, this.pensja);
             statement.setInt(2, this.idOsoby);
 
-            ResultSet resultSet = statement.executeQuery();
+            resultSet = statement.executeQuery();
             resultSet.next();
             this.setPensja(resultSet.getDouble("pensja"));
             logger.info("Succes Update Pensja " + this.toString());
-            resultSet.close();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         } finally {
@@ -119,6 +122,9 @@ public class Pracownik {
                 if (connection != null && !connection.isClosed()) {
                     connection.close();
                 }
+                if (resultSet != null && !resultSet.isClosed()) {
+                    resultSet.close();
+                }
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
@@ -128,6 +134,7 @@ public class Pracownik {
     public void updateRola() {
         Connection connection = null;
         PreparedStatement statement = null;
+        ResultSet resultSet = null;
         try {
             connection = DriverManager.getConnection(Main.URL, Main.Login, Main.Password);
             logger.info("Connecting succesfull");
@@ -139,11 +146,10 @@ public class Pracownik {
             statement.setString(1, this.rola);
             statement.setInt(2, this.idOsoby);
 
-            ResultSet resultSet = statement.executeQuery();
+            resultSet = statement.executeQuery();
             resultSet.next();
             this.setRola(resultSet.getString("rola"));
             logger.info("Succes Update Rola " + this.toString());
-            resultSet.close();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         } finally {
@@ -153,6 +159,9 @@ public class Pracownik {
                 }
                 if (connection != null && !connection.isClosed()) {
                     connection.close();
+                }
+                if (resultSet != null && !resultSet.isClosed()) {
+                    resultSet.close();
                 }
             } catch (Exception e) {
                 System.out.println(e.getMessage());

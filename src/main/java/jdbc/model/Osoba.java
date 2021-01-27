@@ -102,18 +102,18 @@ public class Osoba {
     public static List<Osoba> getOsoby() {
         Connection connection = null;
         Statement statement = null;
+        ResultSet resultSet = null;
         List<Osoba> osoby = new LinkedList<>();
         try {
             connection = DriverManager.getConnection(Main.URL, Main.Login, Main.Password);
             logger.info("Connecting succesfull");
             connection.setAutoCommit(false);
             statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM restauracja.osoba ORDER BY id_osoby;");
+            resultSet = statement.executeQuery("SELECT * FROM restauracja.osoba ORDER BY id_osoby;");
             logger.info("Execute Querry");
             while (resultSet.next()) {
                 osoby.add(new Osoba(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getString(4), resultSet.getDate(5), resultSet.getString(6), resultSet.getString(7), resultSet.getInt(8)));
             }
-            resultSet.close();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         } finally {
@@ -123,6 +123,9 @@ public class Osoba {
                 }
                 if (connection != null && !connection.isClosed()) {
                     connection.close();
+                }
+                if (resultSet != null && !resultSet.isClosed()) {
+                    resultSet.close();
                 }
             } catch (Exception e) {
                 System.out.println(e.getMessage());
@@ -134,6 +137,7 @@ public class Osoba {
     public void updateImie() {
         Connection connection = null;
         PreparedStatement statement = null;
+        ResultSet resultSet = null;
         try {
             connection = DriverManager.getConnection(Main.URL, Main.Login, Main.Password);
             logger.info("Connecting succesfull");
@@ -144,11 +148,10 @@ public class Osoba {
             statement.setString(1, this.imie);
             statement.setInt(2, this.idOsoby);
 
-            ResultSet resultSet = statement.executeQuery();
+            resultSet = statement.executeQuery();
             resultSet.next();
             this.setImie(resultSet.getString("imie"));
             logger.info("Succes Update Imie " + this.toString());
-            resultSet.close();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         } finally {
@@ -158,6 +161,9 @@ public class Osoba {
                 }
                 if (connection != null && !connection.isClosed()) {
                     connection.close();
+                }
+                if (resultSet != null && !resultSet.isClosed()) {
+                    resultSet.close();
                 }
             } catch (Exception e) {
                 System.out.println(e.getMessage());
@@ -168,6 +174,7 @@ public class Osoba {
     public void updateNazwisko() {
         Connection connection = null;
         PreparedStatement statement = null;
+        ResultSet resultSet = null;
         try {
             connection = DriverManager.getConnection(Main.URL, Main.Login, Main.Password);
             logger.info("Connecting succesfull");
@@ -178,11 +185,10 @@ public class Osoba {
             statement.setString(1, this.nazwisko);
             statement.setInt(2, this.idOsoby);
 
-            ResultSet resultSet = statement.executeQuery();
+            resultSet = statement.executeQuery();
             resultSet.next();
             this.setNazwisko(resultSet.getString("nazwisko"));
             logger.info("Succes Update Nazwisko " + this.toString());
-            resultSet.close();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         } finally {
@@ -192,6 +198,9 @@ public class Osoba {
                 }
                 if (connection != null && !connection.isClosed()) {
                     connection.close();
+                }
+                if (resultSet != null && !resultSet.isClosed()) {
+                    resultSet.close();
                 }
             } catch (Exception e) {
                 System.out.println(e.getMessage());
@@ -202,6 +211,7 @@ public class Osoba {
     public void updatePesel() {
         Connection connection = null;
         PreparedStatement statement = null;
+        ResultSet resultSet = null;
         try {
             connection = DriverManager.getConnection(Main.URL, Main.Login, Main.Password);
             logger.info("Connecting succesfull");
@@ -212,11 +222,10 @@ public class Osoba {
             statement.setString(1, this.pesel);
             statement.setInt(2, this.idOsoby);
 
-            ResultSet resultSet = statement.executeQuery();
+            resultSet = statement.executeQuery();
             resultSet.next();
             this.setPesel(resultSet.getString("pesel"));
             logger.info("Succes Update Pesel" + this.toString());
-            resultSet.close();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         } finally {
@@ -226,6 +235,9 @@ public class Osoba {
                 }
                 if (connection != null && !connection.isClosed()) {
                     connection.close();
+                }
+                if (resultSet != null && !resultSet.isClosed()) {
+                    resultSet.close();
                 }
             } catch (Exception e) {
                 System.out.println(e.getMessage());
@@ -237,6 +249,7 @@ public class Osoba {
         //TODO CHECK HOW IT WORK.
         Connection connection = null;
         PreparedStatement statement = null;
+        ResultSet resultSet = null;
         try {
             connection = DriverManager.getConnection(Main.URL, Main.Login, Main.Password);
             logger.info("Connecting succesfull");
@@ -247,11 +260,10 @@ public class Osoba {
             statement.setDate(1, new java.sql.Date(this.dataUrodzenia.getTime()));
             statement.setInt(2, this.idOsoby);
 
-            ResultSet resultSet = statement.executeQuery();
+            resultSet = statement.executeQuery();
             resultSet.next();
             this.setDataUrodzenia(resultSet.getDate("data_urodzenia"));
             logger.info("Succes Update Data Urodzenia");
-            resultSet.close();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         } finally {
@@ -261,6 +273,9 @@ public class Osoba {
                 }
                 if (connection != null && !connection.isClosed()) {
                     connection.close();
+                }
+                if (resultSet != null && !resultSet.isClosed()) {
+                    resultSet.close();
                 }
             } catch (Exception e) {
                 System.out.println(e.getMessage());
@@ -271,6 +286,7 @@ public class Osoba {
     public void updateEmail() {
         Connection connection = null;
         PreparedStatement statement = null;
+        ResultSet resultSet = null;
         try {
             connection = DriverManager.getConnection(Main.URL, Main.Login, Main.Password);
             logger.info("Connecting succesfull");
@@ -281,11 +297,10 @@ public class Osoba {
             statement.setString(1, this.email);
             statement.setInt(2, this.idOsoby);
 
-            ResultSet resultSet = statement.executeQuery();
+            resultSet = statement.executeQuery();
             resultSet.next();
             this.setEmail(resultSet.getString("email"));
             logger.info("Succes Update Email " + this.toString());
-            resultSet.close();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         } finally {
@@ -295,6 +310,9 @@ public class Osoba {
                 }
                 if (connection != null && !connection.isClosed()) {
                     connection.close();
+                }
+                if (resultSet != null && !resultSet.isClosed()) {
+                    resultSet.close();
                 }
             } catch (Exception e) {
                 System.out.println(e.getMessage());
@@ -305,6 +323,7 @@ public class Osoba {
     public void updateTelefon() {
         Connection connection = null;
         PreparedStatement statement = null;
+        ResultSet resultSet = null;
         try {
             connection = DriverManager.getConnection(Main.URL, Main.Login, Main.Password);
             logger.info("Connecting succesfull");
@@ -315,11 +334,10 @@ public class Osoba {
             statement.setString(1, this.telefon);
             statement.setInt(2, this.idOsoby);
 
-            ResultSet resultSet = statement.executeQuery();
+            resultSet = statement.executeQuery();
             resultSet.next();
             this.setTelefon(resultSet.getString("telefon"));
             logger.info("Succes Update Telefon " + this.toString());
-            resultSet.close();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         } finally {
@@ -329,6 +347,9 @@ public class Osoba {
                 }
                 if (connection != null && !connection.isClosed()) {
                     connection.close();
+                }
+                if (resultSet != null && !resultSet.isClosed()) {
+                    resultSet.close();
                 }
             } catch (Exception e) {
                 System.out.println(e.getMessage());

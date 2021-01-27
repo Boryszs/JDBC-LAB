@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import java.sql.*;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class Pracownik {
 
@@ -94,14 +95,17 @@ public class Pracownik {
         return pracownicy;
     }
 
-    public void updatePensja() {
+    // ROLLBACK COMMIT USE
+    public Integer updatePensja() {
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
+        Integer updateValue = null;
         try {
             connection = DriverManager.getConnection(Main.URL, Main.Login, Main.Password);
             logger.info("Connecting succesfull");
             connection.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
+            connection.setAutoCommit(false);
             String sql = "UPDATE restauracja.pracownik SET pensja = ? WHERE id_osoby = ? RETURNING pensja;";
             statement = connection.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             statement.clearParameters();
@@ -109,11 +113,28 @@ public class Pracownik {
             statement.setInt(2, this.idOsoby);
 
             resultSet = statement.executeQuery();
-            resultSet.next();
-            this.setPensja(resultSet.getDouble("pensja"));
-            logger.info("Succes Update Pensja " + this.toString());
+            resultSet.beforeFirst();
+
+            if (resultSet.next()) {
+                this.setPensja(resultSet.getDouble("pensja"));
+                if (this.pensja > 10000) {
+                    logger.error("ERROR violation update pensja");
+                    TimeUnit.SECONDS.sleep(15);
+                    connection.rollback();
+                    updateValue = -1;
+                } else {
+                    TimeUnit.SECONDS.sleep(15);
+                    connection.commit();
+                    logger.info("Succes Update Pensja " + this.toString());
+                    updateValue = 1;
+                }
+            } else {
+                logger.error("Not data update");
+            }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         } finally {
             try {
                 if (statement != null && !statement.isClosed()) {
@@ -125,10 +146,20 @@ public class Pracownik {
                 if (resultSet != null && !resultSet.isClosed()) {
                     resultSet.close();
                 }
+
             } catch (Exception e) {
-                System.out.println(e.getMessage());
+                try {
+                    TimeUnit.SECONDS.sleep(15);
+                    connection.rollback();
+                    System.out.println(e.getMessage());
+                } catch (InterruptedException interruptedException) {
+                    interruptedException.printStackTrace();
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
             }
         }
+        return updateValue;
     }
 
     public void updateRola() {

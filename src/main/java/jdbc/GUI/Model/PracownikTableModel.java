@@ -76,8 +76,12 @@ public class PracownikTableModel extends AbstractTableModel{
         Pracownik row = pracownikList.get(rowIndex);
 
         if (columnIndex == 1) {
+            Double storyValue = row.getPensja();
             row.setPensja(Double.parseDouble((String) aValue));
-            row.updatePensja();
+            Integer uValue = row.updatePensja();
+            if(uValue == -1){
+                row.setPensja(storyValue);
+            }
         } else if (columnIndex == 2) {
             row.setRola((String) aValue);
             row.updateRola();

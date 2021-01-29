@@ -304,6 +304,52 @@ public class Klient {
         }
     }
 
+    public static Integer insertKlient(Klient klient) {
+        ResultSet resultSet = null;
+        PreparedStatement statement = null;
+        Connection connection = null;
+        Integer result = null;
+        try {
+            connection = DriverManager.getConnection(Main.URL, Main.Login, Main.Password);
+            connection.setAutoCommit(false);
+            logger.info("Connecting succesfull");
+            String sql = "INSERT INTO restauracja.klient (login,haslo,id_osoby) VALUES (?,crypt(?, gen_salt('md5')),?)";
+            statement = connection.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE,Statement.RETURN_GENERATED_KEYS);
+            statement.setString(1, klient.getLogin());
+            statement.setString(2, klient.getHaslo());
+            statement.setInt(3, klient.getIdOsoby());
+            result = statement.executeUpdate();
+            connection.commit();
+            if (result > 0) {
+                logger.info("Succes Insert klient " + klient.toString());
+                resultSet.next();
+                System.out.println(resultSet.getInt(1));
+                return resultSet.getInt(1);
+            }
+        } catch (SQLException throwables) {
+            connection.rollback();
+            logger.error("Rollback");
+            //throwables.printStackTrace();
+        } finally {
+            try {
+                if (statement != null && !statement.isClosed()) {
+                    statement.close();
+                }
+                if (connection != null && !connection.isClosed()) {
+                    connection.close();
+                }
+                if (resultSet != null && !resultSet.isClosed()) {
+                    resultSet.close();
+                }
+
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+            return null;
+        }
+    }
+
+
     @Override
     public String toString() {
         return "jdbc.model.Klient{" +

@@ -357,6 +357,50 @@ public class Osoba {
         }
     }
 
+    public static Integer insertOsoba(Osoba osoba) {
+        ResultSet resultSet = null;
+        PreparedStatement statement = null;
+        Connection connection = null;
+        Integer result = null;
+        try {
+            connection = DriverManager.getConnection(Main.URL, Main.Login, Main.Password);
+            logger.info("Connecting succesfull");
+            String sql = "INSERT INTO restauracja.osoba (imie,nazwisko,pesel,data_urodzenia,email,telefon,id_adresu) VALUES (?,?,?,?,?,?,?)";
+            statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            statement.setString(1,osoba.getImie());
+            statement.setString(2,osoba.getNazwisko());
+            statement.setString(3,osoba.getPesel());
+            statement.setDate(4, (new java.sql.Date(osoba.getDataUrodzenia().getTime())));
+            statement.setString(5,osoba.getEmail());
+            statement.setString(6,osoba.getTelefon());
+            statement.setInt(7,osoba.getIdAdresu());
+            result = statement.executeUpdate();
+            if (result > 0) {
+                logger.info("Succes Insert osoba " + osoba.toString());
+                resultSet = statement.getGeneratedKeys();
+                resultSet.next();
+                return resultSet.getInt(1);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } finally {
+            try {
+                if (statement != null && !statement.isClosed()) {
+                    statement.close();
+                }
+                if (connection != null && !connection.isClosed()) {
+                    connection.close();
+                }
+                if (resultSet != null && !resultSet.isClosed()) {
+                    resultSet.close();
+                }
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+            return null;
+        }
+    }
+
     @Override
     public String toString() {
         return "jdbc.model.Osoba{" +

@@ -1,42 +1,62 @@
 package jdbc.GUI;
 
-import jdbc.GUI.Model.PracownikTableModel;
+import jdbc.GUI.model.PracownikTableModel;
 import jdbc.model.Pracownik;
 
 import javax.swing.*;
 import javax.swing.table.TableColumn;
 import java.awt.*;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.List;
 
 public class PracownikGUI extends JFrame {
 
+    private List<Pracownik> pracownikList;
+    private FileWriter writer;
+    private StringBuilder dataPracownik;
+    private PracownikTableModel pracownikTableModel;
+    private JTable table;
+    private TableColumn rola;
+    private JComboBox comboBox;
+    private JScrollPane scrollPane;
+    private  JButton buttonBack;
+    private  JButton csvButton;
+    private JPanel panelB;
+    private JPanel mainPanel;
+    private JPanel panelT;
+
     public PracownikGUI(){
-        PracownikTableModel pracownikTableModel = new PracownikTableModel(Pracownik.getPracownik());
-        JTable table = new JTable(pracownikTableModel);
+        pracownikList = Pracownik.getPracownik();
+        pracownikTableModel = new PracownikTableModel(pracownikList);
+        table = new JTable(pracownikTableModel);
         table.setPreferredScrollableViewportSize(new Dimension(700,600));
         table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-        TableColumn rola = table.getColumnModel().getColumn(2);
-        JComboBox comboBox = new JComboBox();
+        rola = table.getColumnModel().getColumn(2);
+        comboBox = new JComboBox();
         comboBox.addItem("kucharz");
         comboBox.addItem("kelner");
         comboBox.addItem("sprzedawca");
         rola.setCellEditor(new DefaultCellEditor(comboBox));
-        JScrollPane scrollPane = new JScrollPane(table);
-        JButton buttonBack = new JButton("<-");
-        buttonBack.setAlignmentX(Component.LEFT_ALIGNMENT);
-        JPanel panelB = new JPanel();
-        panelB.setLayout(new BorderLayout());
-        panelB.add(buttonBack,BorderLayout.WEST);
-        JPanel mainPanel = new JPanel();
-        JPanel panelT = new JPanel();
+        scrollPane = new JScrollPane(table);
+
+        buttonBack = new JButton("<-");
+        csvButton = new JButton("csv");
+
+        panelB = new JPanel();
+        panelB.add(buttonBack);
+        panelB.add(csvButton);
+        panelB.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+
+        mainPanel = new JPanel();
+        panelT = new JPanel();
         panelT.add(scrollPane);
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
         mainPanel.add(panelB);
         mainPanel.add(panelT);
 
-        buttonBack.addActionListener(e -> {
-            SwingUtilities.invokeLater(ChooseWindow::new);
-            dispose();
-        });
 
         this.add(mainPanel);
         this.setResizable(false);
@@ -44,5 +64,43 @@ public class PracownikGUI extends JFrame {
         this.pack();
         this.setTitle("Dane Pracowników z bazy Restauracja");
         this.setVisible(true);
+
+        csvButton.addActionListener(e -> {
+            if (pracownikList.size() != 0) {
+                try {
+                    writer = new FileWriter(new File("pracownicy.csv"));
+                    dataPracownik = new StringBuilder();
+                    dataPracownik.append("Id");
+                    dataPracownik.append(',');
+                    dataPracownik.append("Pensja");
+                    dataPracownik.append(',');
+                    dataPracownik.append("Rola");
+                    dataPracownik.append(',');
+                    dataPracownik.append("Id osoby");
+                    dataPracownik.append('\n');
+                    for (Pracownik pracownik : pracownikList) {
+                        dataPracownik.append(pracownik.getIdPracownika());
+                        dataPracownik.append(',');
+                        dataPracownik.append(2);
+                        dataPracownik.append(',');
+                        dataPracownik.append(pracownik.getRola());
+                        dataPracownik.append(',');
+                        dataPracownik.append(pracownik.getIdOsoby());
+                        dataPracownik.append('\n');
+                    }
+                    System.out.println(dataPracownik.toString());
+                    writer.write(dataPracownik.toString());
+                    writer.flush();
+                    writer.close();
+
+                } catch (IOException ioException) {
+                    System.out.println(ioException.getMessage());
+                }
+            }
+        });
+        buttonBack.addActionListener(e -> {
+            SwingUtilities.invokeLater(ChooseWindow::new);
+            dispose();
+        });
     }
 }

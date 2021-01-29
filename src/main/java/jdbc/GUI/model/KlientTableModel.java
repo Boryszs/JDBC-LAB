@@ -1,4 +1,4 @@
-package jdbc.GUI.Model;
+package jdbc.GUI.model;
 
 import jdbc.model.Klient;
 

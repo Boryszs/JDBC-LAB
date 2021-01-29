@@ -34,7 +34,6 @@ public class Adres {
         this.kodPocztowy = kodPocztowy;
     }
 
-
     public Integer getIdAdresu() {
         return idAdresu;
     }
@@ -186,7 +185,7 @@ public class Adres {
         }
     }
 
-    public void updateNrDomu(){
+    public void updateNrDomu() {
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
@@ -223,7 +222,7 @@ public class Adres {
         }
     }
 
-    public void updateKodPocztowy(){
+    public void updateKodPocztowy() {
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
@@ -258,6 +257,49 @@ public class Adres {
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
+        }
+    }
+
+    public static Integer insertAdres(Adres adres) {
+        ResultSet resultSet = null;
+        PreparedStatement statement = null;
+        Connection connection = null;
+        Integer result = null;
+        try {
+            connection = DriverManager.getConnection(Main.URL, Main.Login, Main.Password);
+            logger.info("Connecting succesfull");
+            String sql = "INSERT INTO restauracja.adres (miejscowosc,ulica,nr_domu,kod_pocztowy) VALUES (?,?,?,?)";
+            statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            statement.setString(1, adres.getMiejscowosc());
+            statement.setString(2, adres.getUlica());
+            statement.setString(3, adres.getNrDomu());
+            statement.setString(4, adres.getKodPocztowy());
+            result = statement.executeUpdate();
+            if (result > 0) {
+                logger.info("Succes Insert adres " + adres.toString());
+                resultSet = statement.getGeneratedKeys();
+                resultSet.next();
+                System.out.println();
+                return resultSet.getInt(1);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } finally {
+            try {
+                if (statement != null && !statement.isClosed()) {
+                    statement.close();
+                }
+                if (connection != null && !connection.isClosed()) {
+                    connection.close();
+                }
+                if (resultSet != null && !resultSet.isClosed()) {
+                    resultSet.close();
+                }
+
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+            return null;
         }
     }
 

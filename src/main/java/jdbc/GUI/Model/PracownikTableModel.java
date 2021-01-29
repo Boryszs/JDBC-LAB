@@ -74,15 +74,14 @@ public class PracownikTableModel extends AbstractTableModel{
     @Override
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
         Pracownik row = pracownikList.get(rowIndex);
-
-        if (columnIndex == 1) {
+        if (columnIndex == 1 && !row.getPensja().equals(Double.parseDouble((String) aValue))){
             Double storyValue = row.getPensja();
             row.setPensja(Double.parseDouble((String) aValue));
             Integer uValue = row.updatePensja();
             if(uValue == -1){
                 row.setPensja(storyValue);
             }
-        } else if (columnIndex == 2) {
+        } else if (columnIndex == 2 && !row.getRola().equals(aValue)) {
             row.setRola((String) aValue);
             row.updateRola();
         }

@@ -79,16 +79,16 @@ public class AdresTableModel extends AbstractTableModel {
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
         Adres row = adresList.get(rowIndex);
 
-        if (columnIndex == 1) {
+        if (columnIndex == 1 && !row.getMiejscowosc().equals(aValue)) {
             row.setMiejscowosc((String) aValue);
             row.updateMiejscowosc();
-        } else if (columnIndex == 2) {
+        } else if (columnIndex == 2 && !row.getUlica().equals(aValue)) {
             row.setUlica((String) aValue);
             row.updateUlica();
-        } else if (columnIndex == 3) {
+        } else if (columnIndex == 3 && !row.getNrDomu().equals(aValue)) {
             row.setNrDomu((String) aValue);
             row.updateNrDomu();
-        } else if (columnIndex == 4) {
+        } else if (columnIndex == 4 && !row.getKodPocztowy().equals(aValue)) {
             row.setKodPocztowy((String) aValue);
             row.updateKodPocztowy();
         }

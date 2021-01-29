@@ -80,23 +80,23 @@ public class OsobaTableModel extends AbstractTableModel {
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
         Osoba row = osoby.get(rowIndex);
 
-        if(columnIndex == 1){
+        if(columnIndex == 1 && !row.getImie().equals(aValue)){
             row.setImie((String) aValue);
             row.updateImie();
-        }else if(columnIndex == 2){
+        }else if(columnIndex == 2 && !row.getNazwisko().equals(aValue)){
             row.setNazwisko((String) aValue);
             row.updateNazwisko();
-        }else if(columnIndex == 3){
+        }else if(columnIndex == 3 && !row.getPesel().equals(aValue)){
             row.setPesel((String) aValue);
             row.updatePesel();
-        }else if(columnIndex == 4){
+        }else if(columnIndex == 4 && !row.getDataUrodzenia().equals(aValue)){
             //TODO NOT WORKING CHANGE DATE
             row.setDataUrodzenia((Date) aValue);
             row.updateDataUrodzenia();
-        }else if(columnIndex == 5){
+        }else if(columnIndex == 5 && !row.getEmail().equals(aValue)){
             row.setEmail((String) aValue);
             row.updateEmail();
-        }else if(columnIndex == 6){
+        }else if(columnIndex == 6 && row.getTelefon().equals(aValue)){
             row.setTelefon((String) aValue);
             row.updateTelefon();
         }

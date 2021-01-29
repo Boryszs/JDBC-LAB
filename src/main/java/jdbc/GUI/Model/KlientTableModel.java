@@ -76,7 +76,7 @@ public class KlientTableModel extends AbstractTableModel {
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
         Klient row = klienci.get(rowIndex);
 
-        if(columnIndex == 1){
+        if(columnIndex == 1 && !row.getLogin().equals(aValue)){
             row.setLogin((String) aValue);
             row.updateLogin();
         }else if(columnIndex == 2){

@@ -119,11 +119,11 @@ public class Pracownik {
                 this.setPensja(resultSet.getDouble("pensja"));
                 if (this.pensja > 10000) {
                     logger.error("ERROR violation update pensja");
-                    TimeUnit.SECONDS.sleep(15);
+                    TimeUnit.SECONDS.sleep(5);
                     connection.rollback();
                     updateValue = -1;
                 } else {
-                    TimeUnit.SECONDS.sleep(15);
+                    TimeUnit.SECONDS.sleep(5);
                     connection.commit();
                     logger.info("Succes Update Pensja " + this.toString());
                     updateValue = 1;

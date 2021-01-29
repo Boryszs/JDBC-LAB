@@ -34,9 +34,6 @@ public class Adres {
         this.kodPocztowy = kodPocztowy;
     }
 
-    public static Logger getLogger() {
-        return logger;
-    }
 
     public Integer getIdAdresu() {
         return idAdresu;

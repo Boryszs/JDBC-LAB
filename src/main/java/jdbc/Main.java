@@ -9,11 +9,6 @@ public class Main {
    public static  final String Login = "postgres";
    public static  final String Password = "123";
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new ChooseWindow();
-            }
-        });
+        SwingUtilities.invokeLater(ChooseWindow::new);
     }
 }

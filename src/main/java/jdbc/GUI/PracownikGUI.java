@@ -6,8 +6,6 @@ import jdbc.model.Pracownik;
 import javax.swing.*;
 import javax.swing.table.TableColumn;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class PracownikGUI extends JFrame {
 
@@ -35,17 +33,9 @@ public class PracownikGUI extends JFrame {
         mainPanel.add(panelB);
         mainPanel.add(panelT);
 
-        buttonBack.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                SwingUtilities.invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        new ChooseWindow();
-                    }
-                });
-                dispose();
-            }
+        buttonBack.addActionListener(e -> {
+            SwingUtilities.invokeLater(ChooseWindow::new);
+            dispose();
         });
 
         this.add(mainPanel);

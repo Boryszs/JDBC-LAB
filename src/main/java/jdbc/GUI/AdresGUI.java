@@ -5,8 +5,6 @@ import jdbc.model.Adres;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.List;
 
 public class AdresGUI extends JFrame {
@@ -38,17 +36,9 @@ public class AdresGUI extends JFrame {
         this.setTitle("Adresy klientów z bazy Restauracja");
         this.setVisible(true);
 
-        buttonBack.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                SwingUtilities.invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        new ChooseWindow();
-                    }
-                });
-                dispose();
-            }
+        buttonBack.addActionListener(e -> {
+            SwingUtilities.invokeLater(ChooseWindow::new);
+            dispose();
         });
     }
 }

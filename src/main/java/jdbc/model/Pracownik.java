@@ -73,7 +73,6 @@ public class Pracownik {
         try {
             connection = DriverManager.getConnection(Main.URL, Main.Login, Main.Password);
             logger.info("Connecting succesfull");
-            connection.setAutoCommit(false);
             statement = connection.createStatement();
             resultSet = statement.executeQuery("SELECT * FROM restauracja.pracownik ORDER BY id_pracownika;");
             logger.info("Execute Querry");
@@ -116,10 +115,8 @@ public class Pracownik {
             statement.clearParameters();
             statement.setDouble(1, this.pensja);
             statement.setInt(2, this.idOsoby);
-
             resultSet = statement.executeQuery();
             resultSet.beforeFirst();
-
             if (resultSet.next()) {
                 this.setPensja(resultSet.getDouble("pensja"));
                 if (this.pensja > 10000) {
@@ -151,7 +148,6 @@ public class Pracownik {
                 if (resultSet != null && !resultSet.isClosed()) {
                     resultSet.close();
                 }
-
             } catch (Exception e) {
                 try {
                     TimeUnit.SECONDS.sleep(15);
@@ -211,7 +207,6 @@ public class Pracownik {
         Connection connection = null;
         Integer result = null;
         Integer id = null;
-
         try {
             connection = DriverManager.getConnection(Main.URL, Main.Login, Main.Password);
             logger.info("Connecting succesfull");
@@ -220,7 +215,6 @@ public class Pracownik {
             statement.setDouble(1,pracownik.getPensja());
             statement.setString(2,pracownik.getRola());
             statement.setInt(3,pracownik.getIdOsoby());
-
             result = statement.executeUpdate();
             if (result > 0) {
                 logger.info("Succes Insert pracownik " + pracownik.toString());

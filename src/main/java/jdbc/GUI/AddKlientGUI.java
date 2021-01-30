@@ -46,13 +46,17 @@ public class AddKlientGUI extends JFrame {
     private JPanel mainPanel;
     private Border daneB;
 
+    private JLabel error;
+
     private JButton addButon;
     private JButton backButton;
 
     public AddKlientGUI() {
 
+        error = new JLabel();
+
         daneB = BorderFactory.createTitledBorder("Dane");
-        mainPanel = new JPanel(new GridLayout(13, 1));
+        mainPanel = new JPanel(new GridLayout(14, 1));
 
         miejscowoscLabel = new Label("Miejscowosc:");
         ulicaLabel = new Label("Ulica:");
@@ -67,6 +71,7 @@ public class AddKlientGUI extends JFrame {
         nrDomuText.setPreferredSize(new Dimension(160, 20));
         kodPocztowyText = new TextField();
         kodPocztowyText.setPreferredSize(new Dimension(160, 20));
+
 
         mainPanel.add(miejscowoscLabel);
         mainPanel.add(miejscowoscText);
@@ -138,6 +143,7 @@ public class AddKlientGUI extends JFrame {
         mainPanel.add(backButton);
         mainPanel.add(addButon);
 
+        mainPanel.add(error);
         mainPanel.setBorder(daneB);
 
         this.add(mainPanel);
@@ -158,7 +164,7 @@ public class AddKlientGUI extends JFrame {
         });
 
         addButon.addActionListener(e -> {
-
+            error.setText(" ");
             if(emailText.getText().matches("([a-zA-Z0-9-+]+@([a-zA-Z0-9-+])+.(com|org|edu|nz|au))") && peselText.getText().length() == 11 && telefonText.getText().matches("^([(0)])+([0-9]){9,}$") && loginText.getText().length() > 4){
                 try {
                     int idAdresu = new Adres().insertAdres(new Adres(miejscowoscText.getText(), ulicaText.getText(), nrDomuText.getText(), kodPocztowyText.getText()));
@@ -174,6 +180,10 @@ public class AddKlientGUI extends JFrame {
                 } catch (InterruptedException interruptedException) {
                     interruptedException.printStackTrace();
                 }
+                SwingUtilities.invokeLater(ChooseWindow::new);
+                dispose();
+            }else {
+                error.setText("Wprowadz poprawne dane");
             }
 
         });

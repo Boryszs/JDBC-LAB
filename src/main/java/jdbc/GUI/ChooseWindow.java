@@ -38,6 +38,7 @@ public class ChooseWindow extends JFrame {
         this.pack();
         this.setTitle("Wybór tabeli");
         this.setVisible(true);
+
         button.addActionListener(e -> {
            int index = jCheckBox.getSelectedIndex();
            if(index == 1){

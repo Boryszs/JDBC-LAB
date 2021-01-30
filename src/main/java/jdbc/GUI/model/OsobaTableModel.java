@@ -3,7 +3,8 @@ package jdbc.GUI.model;
 import jdbc.model.Osoba;
 
 import javax.swing.table.AbstractTableModel;
-import java.util.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 public class OsobaTableModel extends AbstractTableModel {
@@ -19,7 +20,7 @@ public class OsobaTableModel extends AbstractTableModel {
     };
 
     private final Class[] columnClass = new Class[]{
-            Integer.class,String.class,String.class,String.class, Date.class,String.class,String.class,Integer.class
+            Integer.class,String.class,String.class,String.class, String.class,String.class,String.class,Integer.class
     };
 
     public OsobaTableModel(List<Osoba> osoby) {
@@ -60,7 +61,7 @@ public class OsobaTableModel extends AbstractTableModel {
         }else if(columnIndex == 3){
             return row.getPesel();
         }else if(columnIndex == 4){
-            return row.getDataUrodzenia();
+            return new SimpleDateFormat("dd-MM-yyyy").format(row.getDataUrodzenia());
         }else if(columnIndex == 5){
             return row.getEmail();
         }else if(columnIndex == 6){
@@ -90,9 +91,14 @@ public class OsobaTableModel extends AbstractTableModel {
             row.setPesel((String) aValue);
             row.updatePesel();
         }else if(columnIndex == 4 && !row.getDataUrodzenia().equals(aValue)){
-            //TODO NOT WORKING CHANGE DATE
-            row.setDataUrodzenia((Date) aValue);
-            row.updateDataUrodzenia();
+            try {
+                row.setDataUrodzenia(new SimpleDateFormat("dd-MM-yyyy").parse((String) aValue));
+                System.out.println(row.getDataUrodzenia());
+                row.updateDataUrodzenia();
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
         }else if(columnIndex == 5 && !row.getEmail().equals(aValue)){
             row.setEmail((String) aValue);
             row.updateEmail();

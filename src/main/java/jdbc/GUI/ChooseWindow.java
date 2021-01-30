@@ -42,19 +42,19 @@ public class ChooseWindow extends JFrame {
         button.addActionListener(e -> {
            int index = jCheckBox.getSelectedIndex();
            if(index == 1){
-               logger.info("Wybrano Tabele"+jCheckBox.getSelectedItem());
+               logger.info("Wybrano Tabele "+jCheckBox.getSelectedItem());
                dispose();
                SwingUtilities.invokeLater(KlientGui::new);
            }else if(index == 2){
-                logger.info("Wybrano Tabele"+jCheckBox.getSelectedItem());
+                logger.info("Wybrano Tabele "+jCheckBox.getSelectedItem());
                dispose();
                 SwingUtilities.invokeLater(OsobaGUI::new);
             }else if(index == 3){
-                logger.info("Wybrano Tabele"+jCheckBox.getSelectedItem());
+                logger.info("Wybrano Tabele "+jCheckBox.getSelectedItem());
                 dispose();
                 SwingUtilities.invokeLater(AdresGUI::new);
             }else if(index == 4){
-               logger.info("Wybrano Tabele"+jCheckBox.getSelectedItem());
+               logger.info("Wybrano Tabele "+jCheckBox.getSelectedItem());
                dispose();
                SwingUtilities.invokeLater(PracownikGUI::new);
            }

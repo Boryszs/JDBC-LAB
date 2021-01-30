@@ -152,7 +152,7 @@ public class AddKlientGUI extends JFrame {
         this.setResizable(false);
         this.pack();
         this.setPreferredSize(new Dimension(200, 200));
-        this.setTitle("Adresy klientów z bazy Restauracja");
+        this.setTitle("Dane Klientów");
         this.setVisible(true);
 
         backButton.addActionListener(new ActionListener() {

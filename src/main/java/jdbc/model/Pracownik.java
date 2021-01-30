@@ -100,7 +100,7 @@ public class Pracownik {
         return pracownicy;
     }
 
-    // ROLLBACK COMMIT USE
+    // ROLLBACK COMMIT
     public Integer updatePensja() {
         Connection connection = null;
         PreparedStatement statement = null;

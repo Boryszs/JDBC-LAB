@@ -156,7 +156,7 @@ public class AddPracownikGUI extends JFrame {
         this.setResizable(false);
         this.pack();
         this.setPreferredSize(new Dimension(200, 200));
-        this.setTitle("Adresy klientów z bazy Restauracja");
+        this.setTitle("Dane Pracownikow");
         this.setVisible(true);
 
         backButton.addActionListener(new ActionListener() {
@@ -191,7 +191,6 @@ public class AddPracownikGUI extends JFrame {
             }
 
         });
-
     }
 }
 

@@ -9,15 +9,23 @@ import java.awt.*;
 public class ChooseWindow extends JFrame {
     private static final Logger logger = LoggerFactory.getLogger(ChooseWindow.class);
 
+    private JButton button;
+    private Panel panelMain;
+    private Panel panelC;
+    private Panel panelB;
+    private String[] choose = {"Wybierz","Klient","Ososby","Adresy","Pracownicy"};
+    private Label label;
+    private JComboBox jCheckBox;
     public ChooseWindow(){
-        JButton button = new JButton("Wybierz");
-        Panel panelMain = new Panel();
+        button = new JButton("Wybierz");
+        panelMain = new Panel();
         panelMain.setLayout(new BoxLayout(panelMain, BoxLayout.Y_AXIS));
-        Panel panelC = new Panel();
-        Panel panelB = new Panel();
-        String[] choose = {"Wybierz","Klient","Ososby","Adresy","Pracownicy"};
-        Label label = new Label("Wybierz tabele:");
-        JComboBox jCheckBox = new JComboBox(choose);
+        panelC = new Panel();
+        panelB = new Panel();
+
+
+        label = new Label("Wybierz tabele:");
+        jCheckBox = new JComboBox(choose);
         panelC.add(label);
         panelC.add(jCheckBox);
         panelB.add(button);
@@ -50,5 +58,5 @@ public class ChooseWindow extends JFrame {
                SwingUtilities.invokeLater(PracownikGUI::new);
            }
         });
-    }
+  }
 }

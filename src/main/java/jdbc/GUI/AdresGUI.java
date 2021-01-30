@@ -2,8 +2,6 @@ package jdbc.GUI;
 
 import jdbc.GUI.model.AdresTableModel;
 import jdbc.model.Adres;
-import jdbc.model.Klient;
-
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
@@ -35,6 +33,7 @@ public class AdresGUI extends JFrame {
         buttonBack = new JButton("<-");
         csvButton = new JButton("csv");
 
+
         mainPanel = new JPanel();
         panelB = new JPanel();
 
@@ -55,6 +54,7 @@ public class AdresGUI extends JFrame {
         this.pack();
         this.setTitle("Adresy klientów z bazy Restauracja");
         this.setVisible(true);
+
 
         csvButton.addActionListener(e -> {
             if (adresyList.size() != 0) {

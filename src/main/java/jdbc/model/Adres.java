@@ -3,7 +3,6 @@ package jdbc.model;
 import jdbc.Main;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.sql.*;
 import java.util.LinkedList;
 import java.util.List;
@@ -24,6 +23,13 @@ public class Adres {
         this.ulica = null;
         this.nrDomu = null;
         this.kodPocztowy = null;
+    }
+
+    public Adres(String miejscowosc, String ulica, String nrDomu, String kodPocztowy) {
+        this.miejscowosc = miejscowosc;
+        this.ulica = ulica;
+        this.nrDomu = nrDomu;
+        this.kodPocztowy = kodPocztowy;
     }
 
     public Adres(Integer idAdresu, String miejscowosc, String ulica, String nrDomu, String kodPocztowy) {
@@ -265,6 +271,7 @@ public class Adres {
         PreparedStatement statement = null;
         Connection connection = null;
         Integer result = null;
+        Integer id = null;
         try {
             connection = DriverManager.getConnection(Main.URL, Main.Login, Main.Password);
             logger.info("Connecting succesfull");
@@ -279,11 +286,10 @@ public class Adres {
                 logger.info("Succes Insert adres " + adres.toString());
                 resultSet = statement.getGeneratedKeys();
                 resultSet.next();
-                System.out.println();
-                return resultSet.getInt(1);
+                id = resultSet.getInt(1);
             }
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            System.out.println(throwables.getMessage());
         } finally {
             try {
                 if (statement != null && !statement.isClosed()) {
@@ -295,11 +301,10 @@ public class Adres {
                 if (resultSet != null && !resultSet.isClosed()) {
                     resultSet.close();
                 }
-
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
-            return null;
+            return id;
         }
     }
 

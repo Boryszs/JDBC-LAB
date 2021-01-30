@@ -3,7 +3,6 @@ package jdbc.model;
 import jdbc.Main;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.sql.*;
 import java.util.LinkedList;
 import java.util.List;
@@ -19,6 +18,12 @@ public class Pracownik {
     private Integer idOsoby;
 
     public Pracownik() {
+    }
+
+    public Pracownik(Double pensja, String rola, Integer idOsoby) {
+        this.pensja = pensja;
+        this.rola = rola;
+        this.idOsoby = idOsoby;
     }
 
     public Pracownik(Integer idPracownika, Double pensja, String rola, Integer idOsoby) {
@@ -200,6 +205,48 @@ public class Pracownik {
         }
     }
 
+    public static Integer insertPracownik(Pracownik pracownik) {
+        ResultSet resultSet = null;
+        PreparedStatement statement = null;
+        Connection connection = null;
+        Integer result = null;
+        Integer id = null;
+
+        try {
+            connection = DriverManager.getConnection(Main.URL, Main.Login, Main.Password);
+            logger.info("Connecting succesfull");
+            String sql = "INSERT INTO restauracja.pracownik (pensja,rola,id_osoby) VALUES (?,(? :: restauracja.\"Rola\"),?)";
+            statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            statement.setDouble(1,pracownik.getPensja());
+            statement.setString(2,pracownik.getRola());
+            statement.setInt(3,pracownik.getIdOsoby());
+
+            result = statement.executeUpdate();
+            if (result > 0) {
+                logger.info("Succes Insert pracownik " + pracownik.toString());
+                resultSet = statement.getGeneratedKeys();
+                resultSet.next();
+                id = resultSet.getInt(1);
+            }
+        } catch (SQLException throwables) {
+            System.out.println(throwables.getMessage());
+        } finally {
+            try {
+                if (statement != null && !statement.isClosed()) {
+                    statement.close();
+                }
+                if (connection != null && !connection.isClosed()) {
+                    connection.close();
+                }
+                if (resultSet != null && !resultSet.isClosed()) {
+                    resultSet.close();
+                }
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+            return id;
+        }
+    }
 
     @Override
     public String toString() {

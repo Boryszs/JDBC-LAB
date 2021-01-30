@@ -2,7 +2,6 @@ package jdbc.GUI;
 
 import jdbc.GUI.model.OsobaTableModel;
 import jdbc.model.Osoba;
-
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;

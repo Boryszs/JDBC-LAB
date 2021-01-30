@@ -3,7 +3,6 @@ package jdbc.model;
 import jdbc.Main;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.sql.*;
 import java.util.LinkedList;
 import java.util.List;
@@ -18,6 +17,12 @@ public class Klient {
     private Integer idOsoby;
 
     public Klient() {
+    }
+
+    public Klient(String login, String haslo, Integer idOsoby) {
+        this.login = login;
+        this.haslo = haslo;
+        this.idOsoby = idOsoby;
     }
 
     public Klient(Integer idKlient, String login, String haslo, Integer idOsoby) {
@@ -309,27 +314,24 @@ public class Klient {
         PreparedStatement statement = null;
         Connection connection = null;
         Integer result = null;
+        Integer id = null;
+
         try {
             connection = DriverManager.getConnection(Main.URL, Main.Login, Main.Password);
-            connection.setAutoCommit(false);
             logger.info("Connecting succesfull");
             String sql = "INSERT INTO restauracja.klient (login,haslo,id_osoby) VALUES (?,crypt(?, gen_salt('md5')),?)";
-            statement = connection.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE,Statement.RETURN_GENERATED_KEYS);
+            statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, klient.getLogin());
             statement.setString(2, klient.getHaslo());
             statement.setInt(3, klient.getIdOsoby());
             result = statement.executeUpdate();
-            connection.commit();
             if (result > 0) {
                 logger.info("Succes Insert klient " + klient.toString());
                 resultSet.next();
-                System.out.println(resultSet.getInt(1));
-                return resultSet.getInt(1);
+                id = resultSet.getInt(1);
             }
         } catch (SQLException throwables) {
-            connection.rollback();
-            logger.error("Rollback");
-            //throwables.printStackTrace();
+            System.out.println(throwables.getMessage());
         } finally {
             try {
                 if (statement != null && !statement.isClosed()) {
@@ -341,11 +343,10 @@ public class Klient {
                 if (resultSet != null && !resultSet.isClosed()) {
                     resultSet.close();
                 }
-
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
-            return null;
+            return id;
         }
     }
 

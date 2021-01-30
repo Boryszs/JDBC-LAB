@@ -1,7 +1,6 @@
 package jdbc.GUI.model;
 
 import jdbc.model.Klient;
-
 import javax.swing.table.AbstractTableModel;
 import java.util.List;
 

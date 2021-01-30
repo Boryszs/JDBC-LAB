@@ -5,6 +5,8 @@ import jdbc.model.Klient;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -20,6 +22,7 @@ public class KlientGui extends JFrame {
     private JScrollPane scrollPane;
     private JButton buttonBack;
     private JButton csvButton;
+    private JButton addButton;
     private JPanel panelB;
     private JPanel mainPanel;
     private JPanel panelT;
@@ -35,6 +38,7 @@ public class KlientGui extends JFrame {
 
         buttonBack = new JButton("<-");
         csvButton = new JButton("csv");
+        addButton = new JButton("Stworz Klienta");
 
         panelB = new JPanel();
         mainPanel = new JPanel();
@@ -42,7 +46,9 @@ public class KlientGui extends JFrame {
 
         panelB.add(buttonBack);
         panelB.add(csvButton);
+        panelB.add(addButton);
         panelB.setAlignmentX(Component.CENTER_ALIGNMENT);
+
         panelT.add(scrollPane);
 
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
@@ -56,6 +62,13 @@ public class KlientGui extends JFrame {
         this.setTitle("Klienci z bazy Restauracja");
         this.setVisible(true);
 
+        addButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                SwingUtilities.invokeLater(AddKlientGUI::new);
+            }
+        });
         csvButton.addActionListener(e -> {
             if (klientList.size() != 0) {
                 try {

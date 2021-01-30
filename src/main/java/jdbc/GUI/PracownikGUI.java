@@ -6,6 +6,8 @@ import jdbc.model.Pracownik;
 import javax.swing.*;
 import javax.swing.table.TableColumn;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -22,6 +24,7 @@ public class PracownikGUI extends JFrame {
     private JComboBox comboBox;
     private JScrollPane scrollPane;
     private  JButton buttonBack;
+    private JButton addButton;
     private  JButton csvButton;
     private JPanel panelB;
     private JPanel mainPanel;
@@ -43,10 +46,12 @@ public class PracownikGUI extends JFrame {
 
         buttonBack = new JButton("<-");
         csvButton = new JButton("csv");
+        addButton = new JButton("Stworz Pracownika");
 
         panelB = new JPanel();
         panelB.add(buttonBack);
         panelB.add(csvButton);
+        panelB.add(addButton);
         panelB.setAlignmentX(Component.CENTER_ALIGNMENT);
 
 
@@ -65,6 +70,13 @@ public class PracownikGUI extends JFrame {
         this.setTitle("Dane Pracowników z bazy Restauracja");
         this.setVisible(true);
 
+        addButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                SwingUtilities.invokeLater(AddPracownikGUI::new);
+            }
+        });
         csvButton.addActionListener(e -> {
             if (pracownikList.size() != 0) {
                 try {
@@ -88,7 +100,6 @@ public class PracownikGUI extends JFrame {
                         dataPracownik.append(pracownik.getIdOsoby());
                         dataPracownik.append('\n');
                     }
-                    System.out.println(dataPracownik.toString());
                     writer.write(dataPracownik.toString());
                     writer.flush();
                     writer.close();

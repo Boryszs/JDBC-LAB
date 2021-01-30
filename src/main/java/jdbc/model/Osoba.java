@@ -3,7 +3,6 @@ package jdbc.model;
 import jdbc.Main;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.sql.*;
 import java.util.Date;
 import java.util.LinkedList;
@@ -22,6 +21,16 @@ public class Osoba {
     private Integer idAdresu;
 
     public Osoba() {
+    }
+
+    public Osoba(String imie, String nazwisko, String pesel, Date dataUrodzenia, String email, String telefon, Integer idAdresu) {
+        this.imie = imie;
+        this.nazwisko = nazwisko;
+        this.pesel = pesel;
+        this.dataUrodzenia = dataUrodzenia;
+        this.email = email;
+        this.telefon = telefon;
+        this.idAdresu = idAdresu;
     }
 
     public Osoba(Integer idOsoby, String imie, String nazwisko, String pesel, Date dataUrodzenia, String email, String telefon, Integer idAdresu) {
@@ -362,6 +371,8 @@ public class Osoba {
         PreparedStatement statement = null;
         Connection connection = null;
         Integer result = null;
+        Integer id = null;
+
         try {
             connection = DriverManager.getConnection(Main.URL, Main.Login, Main.Password);
             logger.info("Connecting succesfull");
@@ -379,10 +390,10 @@ public class Osoba {
                 logger.info("Succes Insert osoba " + osoba.toString());
                 resultSet = statement.getGeneratedKeys();
                 resultSet.next();
-                return resultSet.getInt(1);
+                id = resultSet.getInt(1);
             }
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            System.out.println(throwables.getMessage());
         } finally {
             try {
                 if (statement != null && !statement.isClosed()) {
@@ -397,7 +408,7 @@ public class Osoba {
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
-            return null;
+            return id;
         }
     }
 

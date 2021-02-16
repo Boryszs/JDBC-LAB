@@ -164,41 +164,6 @@ public class Klient {
         return klienci;
     }
 
-    public static void addKlient(String login, String password) {
-        Connection connection = null;
-        PreparedStatement statement = null;
-        try {
-            connection = DriverManager.getConnection(Main.URL, Main.Login, Main.Password);
-            logger.info("Connecting succesfull");
-            connection.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
-            String sql = "INSERT INTO  restauracja.klient (login,haslo,id_osoby) VALUES(?, crypt(?, gen_salt('md5')),10);";
-            statement = connection.prepareStatement(sql);
-            statement.clearParameters();
-            statement.setString(1, login);
-            statement.setString(2, password);
-
-            int rowsInserted = statement.executeUpdate();
-            if (rowsInserted > 0) {
-                logger.info("Succes Insert jdbc.model.Klient");
-            } else {
-                logger.info("Not Insert");
-            }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        } finally {
-            try {
-                if (statement != null && !statement.isClosed()) {
-                    statement.close();
-                }
-                if (connection != null && !connection.isClosed()) {
-                    connection.close();
-                }
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-            }
-        }
-    }
-
     public void updateLogin() {
         Connection connection = null;
         PreparedStatement statement = null;

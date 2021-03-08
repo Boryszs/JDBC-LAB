@@ -6,7 +6,7 @@
 ```sh
 git clone https://github.com/Boryszs/JDBC-LAB.git
 ```
-##### Eksport Database.txt to PostgreSQL
+##### Export Database.txt to PostgreSQL
 ##### Change URL Login Password on Main class
 ##### Run Java program on InteliiJ IDE
 
